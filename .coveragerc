@@ -1,0 +1,4 @@
+[run]
+branch = True
+source = mlserve
+omit = site-packages, .tox

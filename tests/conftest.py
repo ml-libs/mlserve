@@ -23,12 +23,15 @@ def loop(event_loop):
 @pytest.fixture(scope='session')
 def model_conf():
     m = {
-        "models": [{
-        'name': 'boston_gbr_1',
-        'model_path': 'tests/data/boston_gbr.pkl',
-        'data_schema_path': 'tests/data/boston.json',
-        'target': 'target'
-    }]}
+        'models': [
+            {
+                'name': 'boston_gbr_1',
+                'model_path': 'tests/data/boston_gbr.pkl',
+                'data_schema_path': 'tests/data/boston.json',
+                'target': 'target',
+            }
+        ]
+    }
     return m
 
 

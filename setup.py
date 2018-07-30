@@ -18,6 +18,7 @@ install_requires = [
     'aiohttp>=3.0.0',
     'pandas',
     'jsonschema',
+    'trafaret',
 ]
 extras_require = {}
 

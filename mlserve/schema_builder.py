@@ -89,9 +89,5 @@ def build_schema(data):
         # if 'null' not in v['type']:
         names.append(k)
 
-    schema = {
-        'type': 'object',
-        'properties': items,
-        'required': names,
-    }
+    schema = {'type': 'object', 'properties': items, 'required': names}
     return schema

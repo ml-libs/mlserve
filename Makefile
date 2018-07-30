@@ -34,6 +34,10 @@ cov cover coverage: flake checkrst
 	py.test -s -v --cov-report term --cov-report html --cov mlserve ./tests
 	@echo "open file://`pwd`/htmlcov/index.html"
 
+cov_only:
+	py.test -s -v --cov-report term --cov-report html --cov mlserve ./tests
+	@echo "open file://`pwd`/htmlcov/index.html"
+
 ci: flake mypy
 	py.test -s -v --cov-report term --cov-report html --cov mlserve ./tests
 	@echo "open file://`pwd`/htmlcov/index.html"

@@ -4,7 +4,7 @@ from aiohttp import web
 from pathlib import Path
 from functools import partial
 
-from .exceptions import ObjectNotFound
+from .exceptions import ObjectNotFound, UnprocessableEntity
 from .worker import predict
 
 
@@ -12,12 +12,42 @@ jsonify = partial(json.dumps, indent=4, sort_keys=True)
 json_response = partial(web.json_response, dumps=jsonify)
 
 
-class Handler:
+class SiteHandler:
+    def __init__(self, project_root: Path):
+        self._root = project_root
+        self._loop = asyncio.get_event_loop()
+
+    @property
+    def project_root(self) -> Path:
+        return self._root
+
+    async def index(self, request):
+        path = str(self._root / 'static' / 'index.html')
+        return web.FileResponse(path)
+
+
+def setup_app_routes(
+    app: web.Application, handler: SiteHandler
+) -> web.Application:
+    r = app.router
+    h = handler
+    path = str(handler.project_root / 'static')
+    r.add_get('/', h.index, name='index')
+    r.add_static('/static/', path=path, name='static')
+    return app
+
+
+class APIHandler:
     def __init__(self, executor, project_root, model_desc):
         self._executor = executor
         self._root = project_root
         self._loop = asyncio.get_event_loop()
         self._models = {m.name: m for m in model_desc}
+
+        result = sorted(self._models.values(), key=lambda v: v.name)
+        self._models_list = [
+            {'name': m.name, 'target': m.target} for m in result
+        ]
 
     def validate_model_name(self, model_name: str) -> str:
         if model_name not in self._models:
@@ -25,15 +55,8 @@ class Handler:
             raise ObjectNotFound(msg)
         return model_name
 
-    async def index(self, request):
-        path = str(self._root / 'static' / 'index.html')
-        return web.FileResponse(path)
-
-    # API
     async def model_list(self, request):
-        result = sorted(self._models.values(), key=lambda v: v.name)
-        r = [{'name': m.name, 'target': m.target} for m in result]
-        return json_response(r)
+        return json_response(self._models_list)
 
     async def model_detail(self, request):
         model_name = request.match_info['model_name']
@@ -45,29 +68,31 @@ class Handler:
     async def model_predict(self, request):
         model_name = request.match_info['model_name']
         self.validate_model_name(model_name)
-
         raw_data = await request.read()
         run = self._loop.run_in_executor
-        r = await run(self._executor, predict, model_name, raw_data)
+
+        try:
+            future = run(self._executor, predict, model_name, raw_data)
+            r = await future
+        except asyncio.CancelledError:
+            raise
+        except Exception as e:
+            msg = 'Model failed to predict'
+            raise UnprocessableEntity(msg, reason=str(e)) from e
+
         return json_response(r)
 
 
-def setup_routes(
-    app: web.Application, handler: Handler, project_root: Path
+def setup_api_routes(
+    api: web.Application, handler: APIHandler
 ) -> web.Application:
-    r = app.router
+    r = api.router
     h = handler
-    path = str(project_root / 'static')
-    r.add_get('/', h.index, name='index')
-    r.add_static('/static/', path=path, name='static')
-    # api
-    r.add_get('/api/v1/models', h.model_list, name='model.list')
-    r.add_get(
-        '/api/v1/models/{model_name}', h.model_detail, name='model.detail'
-    )
+    r.add_get('/v1/models', h.model_list, name='model.list')
+    r.add_get('/v1/models/{model_name}', h.model_detail, name='model.detail')
     r.add_post(
-        '/api/v1/models/{model_name}/predict',
+        '/v1/models/{model_name}/predict',
         h.model_predict,
         name='model.predict',
     )
-    return app
+    return api

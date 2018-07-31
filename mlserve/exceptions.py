@@ -29,6 +29,6 @@ class ObjectNotFound(RESTError):
     error = 'Object not found'
 
 
-class JsonValidaitonError(RESTError):
-    status_code = 400
-    error = 'Invalid json payload'
+class UnprocessableEntity(RESTError):
+    status_code = 422
+    error = 'Unprocessable Entity'

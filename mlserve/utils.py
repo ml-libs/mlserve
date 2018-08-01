@@ -10,7 +10,6 @@ from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, List, Dict
-from .worker import warm
 
 from .handlers import (
     APIHandler,
@@ -18,6 +17,7 @@ from .handlers import (
     setup_app_routes,
     setup_api_routes,
 )
+from .worker import warm
 from .middleware import stats_middleware
 
 

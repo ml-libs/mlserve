@@ -2,6 +2,7 @@ import json
 from aiohttp import web
 
 
+# Server related exceptions
 class RESTError(web.HTTPError):
     status_code = 500
     error = 'Unknown Error'
@@ -32,3 +33,20 @@ class ObjectNotFound(RESTError):
 class UnprocessableEntity(RESTError):
     status_code = 422
     error = 'Unprocessable Entity'
+
+
+# REST client related exceptions
+class RestClientError(Exception):
+    """Base exception class for RESTClient"""
+
+    @property
+    def status_code(self):
+        return self.args[0]
+
+
+class PlainRestError(RestClientError):
+    """Answer is not JSON, for example for 500 Internal Server Error"""
+
+    @property
+    def error_text(self):
+        return self.args[1]

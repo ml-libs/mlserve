@@ -1,0 +1,96 @@
+{
+    "properties": {
+        "Age": {
+            "type": [
+                "integer"
+            ]
+        },
+        "Balance": {
+            "type": [
+                "integer"
+            ]
+        },
+        "Cards": {
+            "type": [
+                "integer"
+            ]
+        },
+        "Education": {
+            "type": [
+                "integer"
+            ]
+        },
+        "Ethnicity": {
+            "enum": [
+                "African American",
+                "Asian",
+                "Caucasian"
+            ],
+            "type": [
+                "string"
+            ]
+        },
+        "Gender": {
+            "enum": [
+                " Male",
+                "Female"
+            ],
+            "type": [
+                "string"
+            ]
+        },
+        "Income": {
+            "type": [
+                "number"
+            ]
+        },
+        "Limit": {
+            "type": [
+                "integer"
+            ]
+        },
+        "Married": {
+            "enum": [
+                "No",
+                "Yes"
+            ],
+            "type": [
+                "string"
+            ]
+        },
+        "Rating": {
+            "type": [
+                "integer"
+            ]
+        },
+        "Student": {
+            "enum": [
+                "No",
+                "Yes"
+            ],
+            "type": [
+                "string"
+            ]
+        },
+        "Unnamed: 0": {
+            "type": [
+                "integer"
+            ]
+        }
+    },
+    "required": [
+        "Unnamed: 0",
+        "Income",
+        "Limit",
+        "Rating",
+        "Cards",
+        "Age",
+        "Education",
+        "Gender",
+        "Student",
+        "Married",
+        "Ethnicity",
+        "Balance"
+    ],
+    "type": "object"
+}

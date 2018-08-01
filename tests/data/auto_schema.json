@@ -1,0 +1,61 @@
+{
+    "properties": {
+        "acceleration": {
+            "type": [
+                "number"
+            ]
+        },
+        "cylinders": {
+            "type": [
+                "integer"
+            ]
+        },
+        "displacement": {
+            "type": [
+                "number"
+            ]
+        },
+        "horsepower": {
+            "type": [
+                "string"
+            ]
+        },
+        "mpg": {
+            "type": [
+                "number"
+            ]
+        },
+        "name": {
+            "type": [
+                "string"
+            ]
+        },
+        "origin": {
+            "type": [
+                "integer"
+            ]
+        },
+        "weight": {
+            "type": [
+                "integer"
+            ]
+        },
+        "year": {
+            "type": [
+                "integer"
+            ]
+        }
+    },
+    "required": [
+        "mpg",
+        "cylinders",
+        "displacement",
+        "horsepower",
+        "weight",
+        "acceleration",
+        "year",
+        "origin",
+        "name"
+    ],
+    "type": "object"
+}

@@ -1,27 +1,3 @@
-// import React from "react";
-// import ReactDOM from "react-dom";
-// import MainNav from "./MainNav";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-//
-//
-// class App extends React.Component {
-//   constructor() {
-//     super();
-//   }
-//
-//   render() {
-//     return (
-//       <main>
-//         <MainNav/>
-//         <h1>Moderator AI</h1>
-//       </main>
-//     );
-//   }
-// };
-//
-//
-// ReactDOM.render(<App />, document.getElementById("app"));
-
 import ReactDOM from "react-dom";
 import React, { Component } from "react";
 import {

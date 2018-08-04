@@ -62,7 +62,6 @@ async def setup_executor(app, max_workers, models):
 @dataclass
 class ModelDescriptor:
     name: str
-    name: str
     target: str
     features: List[str]
     schema: Dict[Any, Any]
@@ -85,6 +84,7 @@ def load_models(model_conf):
     for m in model_conf:
         with open(m['data_schema_path'], 'rb') as f:
             schema = json.load(f)
+
         schema_size = os.path.getsize(m['data_schema_path'])
         model_size = os.path.getsize(m['model_path'])
         features = list(schema['properties'].keys())

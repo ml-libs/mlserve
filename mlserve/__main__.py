@@ -1,6 +1,5 @@
-from mlserve.main import main, cli_parser
+from mlserve.main import main
 
 
 if __name__ == '__main__':
-    args = cli_parser()
-    main(args.host, args.port, args.config, workers=args.workers)
+    main()

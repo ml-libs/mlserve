@@ -38,20 +38,21 @@ def read_version():
 
 
 classifiers = [
-    'License :: OSI Approved :: MIT License',
+    'License :: OSI Approved :: Apache Software License',
     'Intended Audience :: Developers',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
     'Operating System :: POSIX',
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 2 - Pre-Alpha',
     'Framework :: AsyncIO',
 ]
 
 
 setup(name='mlserve',
       version=read_version(),
-      description=('mlserve'),
+      description=('mlserve -- turns python model into RESTful API'
+                   ' with automatically generated UI.'),
       long_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
       classifiers=classifiers,
       platforms=['POSIX'],
@@ -63,6 +64,6 @@ setup(name='mlserve',
       packages=find_packages(),
       entry_points={'console_scripts': ['mlserve = mlserve.main:main']},
       extras_require=extras_require,
-      keywords=['mlserve'],
+      keywords=['mlserve', 'serving', 'aiohttp'],
       zip_safe=True,
       include_package_data=True)

@@ -23,8 +23,24 @@ import {
   ListGroupItem,
   ListGroup
 } from "reactstrap";
-
+import Form from "react-jsonschema-form";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+
+const schema = {
+  title: "Testing form generation",
+  type: "object",
+  required: ["title"],
+  properties: {
+    title: {type: "string", title: "Title", default: "A new task"},
+    done: {type: "boolean", title: "Done?", default: false}
+  }
+};
+
+
+const log = (type) => console.log.bind(console, type);
+
+
 
 class App extends Component {
   constructor(props) {
@@ -49,7 +65,7 @@ class App extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+                <NavLink href="/components/">Docs</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/jettify/mlserve">
@@ -98,6 +114,11 @@ class App extends Component {
               </ListGroup>
             </Col>
           </Row>
+
+          <Form schema={schema}
+                onChange={log("changed")}
+                onSubmit={log("submitted")}
+                onError={log("errors")} />
         </Container>
       </div>
     );

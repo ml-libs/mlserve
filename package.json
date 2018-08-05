@@ -1,5 +1,5 @@
 {
-  "name": "toxic-comments-client",
+  "name": "mlserve-client",
   "version": "0.0.1",
   "engines": {
     "node": ">=6"
@@ -7,8 +7,9 @@
   "scripts": {
     "build": "./node_modules/.bin/parcel build --out-dir static ui/index.html --public-url ./static/",
     "dev": "./node_modules/.bin/parcel ui/index.html",
-    "prettier": "prettier --write ui/**/* test/**/*",
-    "eslint": "eslint ui/**/*.js test/**/*.js",
+    "prettier": "prettier --write 'ui/**/*.js' 'test/**/*.js'",
+    "eslint": "eslint 'ui/**/*.js' 'test/**/*.js'",
+    "lint": "eslint 'ui/**/*.js' 'test/**/*.js'",
     "eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check",
     "pretest": "npm-run-all eslint-check eslint",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,8 +23,9 @@
     "preact": "8.2.9",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-jsonschema-form": "^1.0.4",
     "reactstrap": "^6.3.1",
-    "whatwg-fetch": "2.0.4",
+    "whatwg-fetch": "^2.0.4",
     "yarn": "^1.9.0"
   },
   "devDependencies": {

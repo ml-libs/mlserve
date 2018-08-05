@@ -112,7 +112,7 @@ async def init(loop, max_workers, model_conf) -> web.Application:
     api = web.Application(middlewares=[stats_middleware])
     models = load_models(model_conf['models'])
     executor = await setup_executor(app, max_workers, models)
-    api_handler = APIHandler(executor, PROJ_ROOT, models)
+    api_handler = APIHandler(api, executor, PROJ_ROOT, models)
     setup_api_routes(api, api_handler)
 
     app.add_subapp('/api', api)

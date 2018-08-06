@@ -36,6 +36,8 @@ def setup_app_routes(
     h = handler
     path = str(handler.project_root / 'static')
     r.add_get('/', h.index, name='index')
+    r.add_get('/models', h.index, name='index.models')
+    r.add_get('/models/{model_name}', h.index, name='index.model.name')
     r.add_static('/static/', path=path, name='static')
     return app
 

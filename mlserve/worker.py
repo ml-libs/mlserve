@@ -2,7 +2,8 @@ import pickle  # nosec
 import pandas as pd
 from typing import Dict, Any, List
 
-
+# TODO: add structural typing with predict method instead
+# of Any
 _models: Dict[str, Any] = {}
 
 
@@ -22,6 +23,7 @@ def warm(models) -> bool:
 
 
 def predict(model_name: str, raw_data) -> List[float]:
+    # TODO: wrap this call into try except
     df = pd.read_json(raw_data)
     results = _models[model_name].predict(df)
     return results.tolist()

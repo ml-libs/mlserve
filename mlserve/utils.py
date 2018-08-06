@@ -33,33 +33,31 @@ ModelMeta = t.Dict(
     }
 )
 
-ModelConfig = t.Dict({t.Key('models'): t.List(ModelMeta)})
+
+# TODO: rename to something more general
+ModelConfig = t.Dict({
+    t.Key('host', default='127.0.0.1'): t.String,
+    t.Key('port', default=9000): t.Int[0: 65535],
+    t.Key('workers', default=2): t.Int[1:127],
+    t.Key('models'): t.List(ModelMeta),
+})
 
 
-def load_model_config(fname):
-    with open(fname, 'rt') as f:
-        raw_data = yaml.safe_load(f)
-    data = ModelConfig(raw_data)
-    return data
+ServerConfigTrafaret = t.Dict({
+    t.Key('host', default='127.0.0.1'): t.String,
+    t.Key('port', default=9000): t.Int[0: 65535],
+    t.Key('workers', default=2): t.Int[1:127],
+}).ignore_extra('*')
 
 
-async def setup_executor(app, max_workers, models):
-    executor = ProcessPoolExecutor(max_workers=max_workers)
-    loop = asyncio.get_event_loop()
-    run = loop.run_in_executor
-    fs = [run(executor, warm, models) for i in range(0, max_workers)]
-    await asyncio.gather(*fs)
-
-    async def close_executor(app):
-        # TODO: figureout timeout for shutdown
-        executor.shutdown(wait=True)
-
-    app.on_cleanup.append(close_executor)
-    app['executor'] = executor
-    return executor
+@dataclass(frozen=True)
+class ServerConfig:
+    host: str
+    port: int
+    workers: int
 
 
-@dataclass
+@dataclass(frozen=True)
 class ModelDescriptor:
     name: str
     target: str
@@ -70,17 +68,39 @@ class ModelDescriptor:
     data_schema_path: Path
     schema_size: int
 
-    def asdict(self):
+    def asdict(self) -> Dict[str, Any]:
         return asdict(self)
 
 
-def get_executor(request):
-    executor = request.app['executor']
+def load_model_config(fname: Path) -> Dict[str, Any]:
+    with open(fname, 'rt') as f:
+        raw_data = yaml.safe_load(f)
+    data: Dict[str, Any] = ModelConfig(raw_data)
+    return data
+
+
+async def setup_executor(
+    app: web.Application,
+    max_workers: int,
+    models: List[ModelDescriptor]
+) -> ProcessPoolExecutor:
+    executor = ProcessPoolExecutor(max_workers=max_workers)
+    loop = asyncio.get_event_loop()
+    run = loop.run_in_executor
+    fs = [run(executor, warm, models) for i in range(0, max_workers)]
+    await asyncio.gather(*fs)
+
+    async def close_executor(app: web.Application) -> None:
+        # TODO: figureout timeout for shutdown
+        executor.shutdown(wait=True)
+
+    app.on_cleanup.append(close_executor)
+    app['executor'] = executor
     return executor
 
 
-def load_models(model_conf):
-    result = []
+def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
+    result: List[ModelDescriptor] = []
     for m in model_conf:
         with open(m['data_schema_path'], 'rb') as f:
             schema = json.load(f)
@@ -93,16 +113,18 @@ def load_models(model_conf):
             target=m['target'],
             features=features,
             schema=schema,
-            model_path=m['model_path'],
+            model_path=Path(m['model_path']),
             model_size=model_size,
-            data_schema_path=m['data_schema_path'],
+            data_schema_path=Path(m['data_schema_path']),
             schema_size=schema_size,
         )
         result.append(model_desc)
     return result
 
 
-async def init(loop, max_workers, model_conf) -> web.Application:
+async def init(
+    loop, max_workers: int, model_conf: Dict[str, Any]
+) -> web.Application:
     # setup web page related routes
     app = web.Application()
     handler = SiteHandler(PROJ_ROOT)

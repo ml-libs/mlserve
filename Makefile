@@ -2,9 +2,6 @@
 
 FLAGS=
 
-run:
-	python -m mlserve -c config/dev.yml
-
 flake: checkrst bandit
 	flake8 mlserve tests examples setup.py demos
 
@@ -22,6 +19,7 @@ bandit:
 
 pyroma:
 	pyroma -d .
+
 mypy:
 	mypy mlserve --ignore-missing-imports --disallow-untyped-calls --no-site-packages --strict
 
@@ -56,7 +54,6 @@ clean:
 	rm -rf build
 	rm -rf htmlcov
 	rm -rf dist
-	rm -rf node_modules
 
 doc:
 	make -C docs html

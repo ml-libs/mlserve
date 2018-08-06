@@ -14,6 +14,20 @@ mlserve
 form generated to match your input data.
 
 
+Installation
+============
+
+Installation process is simple, just::
+
+    $ pip install git+https://github.com/jettify/mlserve.git
+
+
+Example
+=======
+
+    $ mlserve -c models.yaml
+
+
 Features
 ========
 * Model predictions serving via RESTful API endpoint.

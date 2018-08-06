@@ -6,7 +6,7 @@ from aiohttp import web
 from .utils import load_model_config, init
 
 
-def cli_parser():
+def _cli_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', help='Provide path to config file')
     parser.add_argument(
@@ -19,9 +19,9 @@ def cli_parser():
 
 
 def main() -> None:
-    args = cli_parser()
+    args = _cli_parser()
     logging.basicConfig(level=logging.DEBUG)
     loop = asyncio.get_event_loop()
     model_conf = load_model_config(args.config)
-    app = loop.run_until_complete(init(loop, args.workers, model_conf))
+    app = loop.run_until_complete(init(args.workers, model_conf))
     web.run_app(app, host=args.host, port=args.port)

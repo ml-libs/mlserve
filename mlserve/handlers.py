@@ -1,18 +1,20 @@
 import asyncio
 import json
-from aiohttp import web
-from pathlib import Path
-from functools import partial
 
-from .exceptions import ObjectNotFound, UnprocessableEntity
-from .worker import predict
+from aiohttp import web
+from functools import partial
+from pathlib import Path
+from typing import Callable, Dict, Any, Union, List
+
 from .consts import MODELS_KEY
+from .exceptions import ObjectNotFound
 from .stats import ModelStats, AggStats
-from typing import Dict
+from .worker import predict
 
 
 jsonify = partial(json.dumps, indent=4, sort_keys=True)
-json_response = partial(web.json_response, dumps=jsonify)
+JsonResp = Callable[[Union[Dict[str, Any], List[Any]]], web.Response]
+json_response: JsonResp = partial(web.json_response, dumps=jsonify)
 
 
 class SiteHandler:
@@ -24,7 +26,7 @@ class SiteHandler:
     def project_root(self) -> Path:
         return self._root
 
-    async def index(self, request):
+    async def index(self, request: web.Request) -> web.FileResponse:
         path = str(self._root / 'static' / 'index.html')
         return web.FileResponse(path)
 
@@ -43,7 +45,8 @@ def setup_app_routes(
 
 
 class APIHandler:
-    def __init__(self, app, executor, project_root, model_desc):
+    def __init__(self, app: web.Application,
+                 executor, project_root: Path, model_desc):
         self._app = app
         self._executor = executor
         self._root = project_root
@@ -63,40 +66,36 @@ class APIHandler:
             raise ObjectNotFound(msg)
         return model_name
 
-    async def model_list(self, request):
+    async def model_list(self, request: web.Request) -> web.Response:
         return json_response(self._models_list)
 
-    async def model_detail(self, request):
+    async def model_detail(self, request: web.Request):
         model_name = request.match_info['model_name']
         self.validate_model_name(model_name)
 
         r = self._models[model_name].asdict()
         return json_response(r)
 
-    async def model_predict(self, request):
+    async def model_predict(self, request: web.Request) -> web.Response:
         model_name = request.match_info['model_name']
         self.validate_model_name(model_name)
         raw_data = await request.read()
         run = self._loop.run_in_executor
-
-        try:
-            future = run(self._executor, predict, model_name, raw_data)
-            r = await future
-        except asyncio.CancelledError:
-            raise
-        except Exception as e:
-            msg = 'Model failed to predict'
-            raise UnprocessableEntity(msg, reason=str(e)) from e
+        # TODO: figure out if we need protect call with aiojobs
+        r = await run(self._executor, predict, model_name, raw_data)
+        # TODO: introduce exception in case of model failure to predict
+        # msg = 'Model failed to predict'
+        # raise UnprocessableEntity(msg, reason=str(e)) from e
 
         return json_response(r)
 
-    async def model_stats(self, request):
+    async def model_stats(self, request: web.Request) -> web.Response:
         model_name = request.match_info['model_name']
         stats: ModelStats = request.app[MODELS_KEY][model_name]
         r = stats.formatted()
         return json_response(r)
 
-    async def agg_stats(self, request):
+    async def agg_stats(self, request: web.Request) -> web.Response:
         stats_map: Dict[str, ModelStats] = request.app[MODELS_KEY]
         agg = AggStats.from_models_stats(stats_map)
         return json_response(agg.formatted())

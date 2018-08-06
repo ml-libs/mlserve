@@ -42,7 +42,7 @@ def max_workers():
 
 @pytest.fixture
 def api(loop, aiohttp_client, max_workers, model_conf):
-    app = loop.run_until_complete(init(loop, max_workers, model_conf))
+    app = loop.run_until_complete(init(max_workers, model_conf))
     yield loop.run_until_complete(aiohttp_client(app))
     loop.run_until_complete(app.shutdown())
 

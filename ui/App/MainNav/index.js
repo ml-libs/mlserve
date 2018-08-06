@@ -19,7 +19,7 @@ export default class MainNav extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleFetch = this.fetchStats.bind(this);
+    this.handleFetch = this.fetchModesl.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
@@ -32,7 +32,7 @@ export default class MainNav extends React.Component {
     });
   }
 
-  fetchStats() {
+  fetchModesl() {
     fetch("/api/v1/models", {
       method: "GET"
     })
@@ -46,14 +46,14 @@ export default class MainNav extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchStats();
+    this.fetchModesl();
   }
 
   render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <Navbar color="dark" dark expand="md">
+          <NavbarBrand href="/">mlserve</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -73,7 +73,7 @@ export default class MainNav extends React.Component {
                   {this.state.models.map(model => {
                     return (
                       <DropdownItem>
-                        <Link to={`/models/${model.name}`}>{model.name}</Link> {" "}
+                        <Link to={`/models/${model.name}`}>{model.name}</Link>{" "}
                       </DropdownItem>
                     );
                   })}

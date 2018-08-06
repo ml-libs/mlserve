@@ -36,16 +36,17 @@ export default class ModelsList extends Component {
     return (
       <div>
         <Container>
-        <h2>Available Models</h2>
-        <ListGroup>
-          {this.state.models.map(model => {
-            return (
-              <ListGroupItem>
-                  <Link to={`/models/${model.name}`}>{model.name}</Link> {" "} target <Badge color="secondary">{model.target}</Badge>
-              </ListGroupItem>
-            );
-          })}
-        </ListGroup>
+          <h2>Available Models</h2>
+          <ListGroup>
+            {this.state.models.map(model => {
+              return (
+                <ListGroupItem>
+                  <Link to={`/models/${model.name}`}>{model.name}</Link> target{" "}
+                  <Badge color="secondary">{model.target}</Badge>
+                </ListGroupItem>
+              );
+            })}
+          </ListGroup>
         </Container>
       </div>
     );

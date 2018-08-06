@@ -51,12 +51,9 @@ export default class AggStats extends Component {
   render() {
     return (
       <Container>
-        <Col>
-          Server stats.{" "}
-          <Button color="link" onClick={this.handleFetch}>
-            Refresh
-          </Button>
-        </Col>
+        <Button color="link" onClick={this.handleFetch}>
+          Refresh
+        </Button>
         <Row>
           <Col>
             <Card body className="text-center">

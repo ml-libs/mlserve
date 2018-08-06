@@ -12,7 +12,13 @@ from .stats import ModelStats, AggStats
 from .worker import predict
 
 
-jsonify = partial(json.dumps, indent=4, sort_keys=True)
+def path_serializer(obj: Any) -> str:
+    if isinstance(obj, Path):
+        return str(obj)
+    raise TypeError("Type not serializable")
+
+jsonify = partial(
+    json.dumps, indent=4, sort_keys=True, default=path_serializer)
 JsonResp = Callable[[Union[Dict[str, Any], List[Any]]], web.Response]
 json_response: JsonResp = partial(web.json_response, dumps=jsonify)
 

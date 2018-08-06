@@ -123,7 +123,7 @@ def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
 
 
 async def init(
-    loop, max_workers: int, model_conf: Dict[str, Any]
+    max_workers: int, model_conf: Dict[str, Any]
 ) -> web.Application:
     # setup web page related routes
     app = web.Application()

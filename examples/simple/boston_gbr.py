@@ -28,8 +28,9 @@ y_pred = clf.predict(X_test)
 mse = mean_squared_error(y_test, clf.predict(X_test))
 print('MSE: %.4f' % mse)
 
+model_file = 'boston_gbr.pkl'
 print('Writing model')
-with open('boston_gbr.pkl', 'wb') as f:
+with open(model_file, 'wb') as f:
     pickle.dump(clf, f)
 
 print('Writing dataset')
@@ -37,7 +38,7 @@ df = pd.DataFrame(boston.data, columns=boston.feature_names)
 with open('boston.csv', 'w') as f:
     df.to_csv(f, index=False)
 
-print('Writing preds')
+print('Writing predidctions payload example')
 pred_df = df.head(5)
 with open('boston_pred.json', 'w') as f:
     pred_df.to_json(f)

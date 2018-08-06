@@ -5,7 +5,7 @@
     "node": ">=6"
   },
   "scripts": {
-    "build": "./node_modules/.bin/parcel build --out-dir static ui/index.html --public-url ./static/",
+    "build": "./node_modules/.bin/parcel build --out-dir static ui/index.html --public-url /static/",
     "dev": "./node_modules/.bin/parcel ui/index.html",
     "prettier": "prettier --write 'ui/**/*.js' 'test/**/*.js'",
     "eslint": "eslint 'ui/**/*.js' 'test/**/*.js'",
@@ -24,6 +24,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-jsonschema-form": "^1.0.4",
+    "react-router-dom": "^4.3.1",
     "reactstrap": "^6.3.1",
     "whatwg-fetch": "^2.0.4",
     "yarn": "^1.9.0"

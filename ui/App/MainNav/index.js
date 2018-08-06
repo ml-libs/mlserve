@@ -1,3 +1,4 @@
+import "whatwg-fetch";
 import React from "react";
 import {
   Collapse,
@@ -12,14 +13,17 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 export default class MainNav extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleFetch = this.fetchStats.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      models: []
     };
   }
   toggle() {
@@ -27,6 +31,24 @@ export default class MainNav extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+
+  fetchStats() {
+    fetch("/api/v1/models", {
+      method: "GET"
+    })
+      .then(response => response.text())
+      .then(jsonData => JSON.parse(jsonData))
+      .then(data => {
+        this.setState({
+          models: data
+        });
+      });
+  }
+
+  componentDidMount() {
+    this.fetchStats();
+  }
+
   render() {
     return (
       <div>
@@ -36,22 +58,25 @@ export default class MainNav extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+                <NavLink href="https://mlserve.rtfd.com">Docs</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">
+                <NavLink href="https://github.com/jettify/mlserve">
                   GitHub
                 </NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Options
+                  Models
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
+                  {this.state.models.map(model => {
+                    return (
+                      <DropdownItem>
+                        <Link to={`/models/${model.name}`}>{model.name}</Link> {" "}
+                      </DropdownItem>
+                    );
+                  })}
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>

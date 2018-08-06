@@ -1,6 +1,7 @@
 import "whatwg-fetch";
 import React, { Component } from "react";
-import { ListGroupItem, ListGroup, Badge } from "reactstrap";
+import { ListGroupItem, ListGroup, Badge, Container } from "reactstrap";
+import { Link } from "react-router-dom";
 
 export default class ModelsList extends Component {
   constructor(props) {
@@ -34,17 +35,18 @@ export default class ModelsList extends Component {
   render() {
     return (
       <div>
-        <h2> Available Models</h2>
+        <Container>
+        <h2>Available Models</h2>
         <ListGroup>
           {this.state.models.map(model => {
             return (
               <ListGroupItem>
-                <a href="/models/{model.name}">{model.name}</a> predicts{" "}
-                <Badge color="secondary">{model.target}</Badge>
+                  <Link to={`/models/${model.name}`}>{model.name}</Link> {" "} target <Badge color="secondary">{model.target}</Badge>
               </ListGroupItem>
             );
           })}
         </ListGroup>
+        </Container>
       </div>
     );
   }

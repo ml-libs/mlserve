@@ -1,14 +1,31 @@
 import "whatwg-fetch";
 import React, { Component } from "react";
 import {
-  ListGroupItem,
-  ListGroup,
   Badge,
   Container,
   Row,
   Col
 } from "reactstrap";
 import Form from "react-jsonschema-form";
+
+function ObjectFieldTemplate({ TitleField, properties, title, description }) {
+  return (
+    <div>
+      <TitleField title={title} />
+      <div className="row">
+        {properties.map(prop => (
+          <div
+            className="col-lg-2 col-md-4 col-sm-6 col-xs-12"
+            key={prop.content.key}
+          >
+            {prop.content}
+          </div>
+        ))}
+      </div>
+      {description}
+    </div>
+  );
+}
 
 const log = type => console.log.bind(console, type);
 export default class Model extends Component {
@@ -69,10 +86,11 @@ export default class Model extends Component {
                 onChange={log("changed")}
                 onSubmit={this.handleSubmit}
                 onError={log("errors")}
+                ObjectFieldTemplate={ObjectFieldTemplate}
               />
             </Col>
           </Row>
-        <p> {JSON.stringify(this.state.predictions)}</p>
+          <p> {JSON.stringify(this.state.predictions)}</p>
         </Container>
       </div>
     );

@@ -21,9 +21,30 @@ Installation process is simple, just::
 
     $ pip install git+https://github.com/jettify/mlserve.git
 
-
 Example
 =======
+
+Save your model into pickle file::
+
+    with open('boston_gbr.pkl', 'wb') as f:
+        pickle.dump(clf, f)
+
+Save data schema into json file::
+
+    data_schema = mlserve.build_schema(df)
+    with open('boston.json', 'wb') as f:
+        json.dump(data_schema, f)
+
+Create model config and save into yaml file::
+
+    models:
+      - name: "boston_regressor"
+        description: "Boston dataset with gradient boosting regressor"
+        model_path: "boston_gbr.pkl"
+        data_schema_path: "boston.json"
+        target: "target"
+
+Serve model::
 
     $ mlserve -c models.yaml
 

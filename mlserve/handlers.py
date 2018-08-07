@@ -15,7 +15,8 @@ from .worker import predict
 def path_serializer(obj: Any) -> str:
     if isinstance(obj, Path):
         return str(obj)
-    raise TypeError("Type not serializable")
+    raise TypeError('Type not serializable')
+
 
 jsonify = partial(
     json.dumps, indent=4, sort_keys=True, default=path_serializer)
@@ -51,6 +52,7 @@ def setup_app_routes(
 
 
 class APIHandler:
+
     def __init__(self, app: web.Application,
                  executor, project_root: Path, model_desc):
         self._app = app

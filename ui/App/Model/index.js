@@ -15,13 +15,14 @@ export default class Model extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { model: { schema: {} } };
+    this.state = { model: { schema: {}, description: "" } };
     this.handleFetch = this.handleFetch.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.modelName = props.match.params.modelName;
   }
 
   fetchStats() {
-    fetch(`/api/v1/models/{this.modelName}`, {
+    fetch(`/api/v1/models/${this.modelName}`, {
       method: "GET"
     })
       .then(response => response.text())
@@ -41,6 +42,20 @@ export default class Model extends Component {
     this.fetchStats();
   }
 
+  handleSubmit(data) {
+    fetch(`/api/v1/models/${this.modelName}/predict`, {
+      method: "POST",
+      body: JSON.stringify([data.formData])
+    })
+      .then(response => response.text())
+      .then(jsonData => JSON.parse(jsonData))
+      .then(data => {
+        this.setState({
+          predictions: data[0]
+        });
+      });
+  }
+
   render() {
     return (
       <div>
@@ -52,11 +67,12 @@ export default class Model extends Component {
               <Form
                 schema={this.state.model.schema || {}}
                 onChange={log("changed")}
-                onSubmit={log("submitted")}
+                onSubmit={this.handleSubmit}
                 onError={log("errors")}
               />
             </Col>
           </Row>
+        <p> {JSON.stringify(this.state.predictions)}</p>
         </Container>
       </div>
     );

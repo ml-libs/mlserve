@@ -60,24 +60,13 @@
                 "number"
             ]
         },
-        "Unnamed: 0": {
-            "type": [
-                "integer"
-            ]
-        },
         "ZN": {
-            "type": [
-                "number"
-            ]
-        },
-        "target": {
             "type": [
                 "number"
             ]
         }
     },
     "required": [
-        "Unnamed: 0",
         "CRIM",
         "ZN",
         "INDUS",
@@ -90,8 +79,7 @@
         "TAX",
         "PTRATIO",
         "B",
-        "LSTAT",
-        "target"
+        "LSTAT"
     ],
     "type": "object"
 }

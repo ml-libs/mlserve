@@ -1,5 +1,6 @@
 import pickle  # nosec
 import pandas as pd
+import json
 from typing import Dict, Any, List
 
 # TODO: add structural typing with predict method instead
@@ -24,6 +25,6 @@ def warm(models) -> bool:
 
 def predict(model_name: str, raw_data) -> List[float]:
     # TODO: wrap this call into try except
-    df = pd.read_json(raw_data)
+    df = pd.DataFrame(json.loads(raw_data))
     results = _models[model_name].predict(df)
     return results.tolist()

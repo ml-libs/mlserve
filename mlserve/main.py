@@ -1,12 +1,13 @@
 import asyncio
 import argparse
 import logging
+from typing import Any
 
 from aiohttp import web
 from .utils import load_model_config, init
 
 
-def _cli_parser():
+def _cli_parser() -> Any:
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', help='Provide path to config file')
     parser.add_argument(

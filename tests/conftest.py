@@ -3,7 +3,7 @@ import gc
 
 import pytest
 
-from mlserve.main import init
+from mlserve.server_utils import init
 
 
 @pytest.fixture(scope='session')

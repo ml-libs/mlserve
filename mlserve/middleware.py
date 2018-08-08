@@ -23,7 +23,7 @@ def process_request(
     stats.log_data_point(point)
 
 
-@middleware
+@middleware  # type: ignore
 async def stats_middleware(request: Request, handler: Handler) -> Response:
     if request.match_info.route.name == 'models.predict':
         ts = datetime.now()

@@ -12,8 +12,8 @@ class RequestTiming:
     duration: float
 
 
-def factory() -> Deque[RequestTiming]:
-    return deque(maxlen=1000)
+def factory(maxlen: int=1000) -> Deque[RequestTiming]:
+    return deque(maxlen=maxlen)
 
 
 @dataclass
@@ -38,7 +38,7 @@ class _Stats:
 
 class ModelStats(_Stats):
 
-    def log_data_point(self, t: RequestTiming):
+    def log_data_point(self, t: RequestTiming) -> None:
         if t.status < 400:
             self.success += 1
         else:
@@ -49,7 +49,7 @@ class ModelStats(_Stats):
 class AggStats(_Stats):
 
     @classmethod
-    def from_models_stats(cls, stats_map: Dict[str, ModelStats]):
+    def from_models_stats(cls, stats_map: Dict[str, ModelStats]) -> 'AggStats':
         agg_stats = cls()
         all_timings = []
         for stat in stats_map.values():

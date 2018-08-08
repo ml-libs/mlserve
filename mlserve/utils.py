@@ -1,27 +1,13 @@
-import asyncio
 import json
 import os
 
 import trafaret as t
 import yaml
 
-from aiohttp import web
-from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, List, Dict
 
-from .handlers import (
-    APIHandler,
-    SiteHandler,
-    setup_app_routes,
-    setup_api_routes,
-)
-from .worker import warm
-from .middleware import stats_middleware
-
-
-PROJ_ROOT = Path(__file__).parent.parent
 
 ModelMeta = t.Dict(
     {
@@ -79,26 +65,6 @@ def load_model_config(fname: Path) -> Dict[str, Any]:
     return data
 
 
-async def setup_executor(
-    app: web.Application,
-    max_workers: int,
-    models: List[ModelDescriptor]
-) -> ProcessPoolExecutor:
-    executor = ProcessPoolExecutor(max_workers=max_workers)
-    loop = asyncio.get_event_loop()
-    run = loop.run_in_executor
-    fs = [run(executor, warm, models) for i in range(0, max_workers)]
-    await asyncio.gather(*fs)
-
-    async def close_executor(app: web.Application) -> None:
-        # TODO: figureout timeout for shutdown
-        executor.shutdown(wait=True)
-
-    app.on_cleanup.append(close_executor)
-    app['executor'] = executor
-    return executor
-
-
 def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
     result: List[ModelDescriptor] = []
     for m in model_conf:
@@ -120,22 +86,3 @@ def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
         )
         result.append(model_desc)
     return result
-
-
-async def init(
-    max_workers: int, model_conf: Dict[str, Any]
-) -> web.Application:
-    # setup web page related routes
-    app = web.Application()
-    handler = SiteHandler(PROJ_ROOT)
-    setup_app_routes(app, handler)
-
-    # setup API routes
-    api = web.Application(middlewares=[stats_middleware])
-    models = load_models(model_conf['models'])
-    executor = await setup_executor(app, max_workers, models)
-    api_handler = APIHandler(api, executor, PROJ_ROOT, models)
-    setup_api_routes(api, api_handler)
-
-    app.add_subapp('/api', api)
-    return app

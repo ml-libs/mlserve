@@ -1,3 +1,6 @@
+from unittest import mock
+from pathlib import Path
+
 from mlserve.utils import load_models, ModelDescriptor
 
 schema = {
@@ -14,12 +17,10 @@ schema = {
         'RAD': {'type': ['number']},
         'RM': {'type': ['number']},
         'TAX': {'type': ['number']},
-        'Unnamed: 0': {'type': ['integer']},
         'ZN': {'type': ['number']},
         'target': {'type': ['number']},
     },
     'required': [
-        'Unnamed: 0',
         'CRIM',
         'ZN',
         'INDUS',
@@ -62,7 +63,6 @@ def test_load_models():
         'RAD',
         'RM',
         'TAX',
-        'Unnamed: 0',
         'ZN',
         'target',
     ]
@@ -71,9 +71,9 @@ def test_load_models():
         features=f,
         schema=schema,
         target='target',
-        model_path='tests/data/boston_gbr.pkl',
-        model_size=1116729,
-        data_schema_path='tests/data/boston.json',
-        schema_size=1668,
+        model_path=Path('tests/data/boston_gbr.pkl'),
+        model_size=mock.ANY,
+        data_schema_path=Path('tests/data/boston.json'),
+        schema_size=mock.ANY,
     )
     assert [m] == r

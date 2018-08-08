@@ -60,11 +60,6 @@
                 "number"
             ]
         },
-        "Unnamed: 0": {
-            "type": [
-                "integer"
-            ]
-        },
         "ZN": {
             "type": [
                 "number"
@@ -77,7 +72,6 @@
         }
     },
     "required": [
-        "Unnamed: 0",
         "CRIM",
         "ZN",
         "INDUS",

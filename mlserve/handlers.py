@@ -5,11 +5,13 @@ from aiohttp import web
 from functools import partial
 from pathlib import Path
 from typing import Callable, Dict, Any, Union, List
+from concurrent.futures import ProcessPoolExecutor
 
 from .consts import MODELS_KEY
 from .exceptions import ObjectNotFound
 from .stats import ModelStats, AggStats
 from .worker import predict
+from .utils import ModelDescriptor
 
 
 def path_serializer(obj: Any) -> str:
@@ -19,7 +21,8 @@ def path_serializer(obj: Any) -> str:
 
 
 jsonify = partial(
-    json.dumps, indent=4, sort_keys=True, default=path_serializer)
+    json.dumps, indent=4, sort_keys=True, default=path_serializer
+)
 JsonResp = Callable[[Union[Dict[str, Any], List[Any]]], web.Response]
 json_response: JsonResp = partial(web.json_response, dumps=jsonify)
 
@@ -52,16 +55,20 @@ def setup_app_routes(
 
 
 class APIHandler:
-
-    def __init__(self, app: web.Application,
-                 executor, project_root: Path, model_desc):
+    def __init__(
+        self,
+        app: web.Application,
+        executor: ProcessPoolExecutor,
+        project_root: Path,
+        model_descs: List[ModelDescriptor],
+    ) -> None:
         self._app = app
         self._executor = executor
         self._root = project_root
         self._loop = asyncio.get_event_loop()
 
-        self._models = {m.name: m for m in model_desc}
-        self._app[MODELS_KEY] = {m.name: ModelStats() for m in model_desc}
+        self._models = {m.name: m for m in model_descs}
+        self._app[MODELS_KEY] = {m.name: ModelStats() for m in model_descs}
 
         result = sorted(self._models.values(), key=lambda v: v.name)
         self._models_list = [
@@ -77,7 +84,7 @@ class APIHandler:
     async def model_list(self, request: web.Request) -> web.Response:
         return json_response(self._models_list)
 
-    async def model_detail(self, request: web.Request):
+    async def model_detail(self, request: web.Request) -> web.Response:
         model_name = request.match_info['model_name']
         self.validate_model_name(model_name)
 

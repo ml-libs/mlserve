@@ -46,7 +46,7 @@ class ServerConfig:
 @dataclass(frozen=True)
 class ModelDescriptor:
     name: str
-    target: str
+    target: List[str]
     features: List[str]
     schema: Dict[Any, Any]
     model_path: Path
@@ -71,12 +71,16 @@ def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
         with open(m['data_schema_path'], 'rb') as f:
             schema = json.load(f)
 
+        target = m['target']
+        target: List[str] = target if isinstance(target, list) else [target]
+        schema = drop_columns(schema, target)
+
         schema_size = os.path.getsize(m['data_schema_path'])
         model_size = os.path.getsize(m['model_path'])
-        features = list(schema['properties'].keys())
+        features = list(schema['schema']['properties'].keys())
         model_desc = ModelDescriptor(
             name=m['name'],
-            target=m['target'],
+            target=target,
             features=features,
             schema=schema,
             model_path=Path(m['model_path']),
@@ -86,3 +90,14 @@ def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
         )
         result.append(model_desc)
     return result
+
+
+def drop_columns(schema: Dict[str, Any], columns: List[str]) -> Dict[str, Any]:
+    for col in columns:
+        schema['schema']['properties'].pop(col, None)
+        schema['ui_schema'].pop(col, None)
+        schema['example_data'].pop(col, None)
+
+        if col in schema['schema']['required']:
+            schema['schema']['required'].remove(col)
+    return schema

@@ -4,7 +4,9 @@ import logging
 from typing import Any
 
 from aiohttp import web
-from .utils import load_model_config, init
+
+from .server_utils import init
+from .utils import load_model_config
 
 
 def _cli_parser() -> Any:

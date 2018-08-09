@@ -4,7 +4,11 @@ import {
   Badge,
   Container,
   Row,
-  Col
+  Col,
+  Label,
+  FormGroup,
+  Card,
+  CardText
 } from "reactstrap";
 import Form from "react-jsonschema-form";
 
@@ -32,9 +36,15 @@ export default class Model extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { model: { schema: {}, description: "" } };
+    this.state = {
+      model: {
+        schema: { schema: {}, ui_schema: {}, example_data: {} },
+        description: ""
+      }
+    };
     this.handleFetch = this.handleFetch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.modelName = props.match.params.modelName;
   }
 
@@ -46,7 +56,8 @@ export default class Model extends Component {
       .then(jsonData => JSON.parse(jsonData))
       .then(data => {
         this.setState({
-          model: data
+          model: data,
+          formData: data.schema.example_data,
         });
       });
   }
@@ -73,6 +84,10 @@ export default class Model extends Component {
       });
   }
 
+  handleChange(data) {
+      this.setState({ formData: data.formData });
+  }
+
   render() {
     return (
       <div>
@@ -81,9 +96,26 @@ export default class Model extends Component {
             <Col>
               <h2> Model {this.modelName}</h2>
               <p> Model {this.state.model.description || ""}</p>
+              <h2>Predict With Command Line</h2>
+              Just copy following <i>curl</i> command and excute in your
+              terminal:
+              <Card body>
+                <CardText>
+                  <code>
+                    curl --header "Content-Type: application/json" --request
+                    POST --data '[{JSON.stringify(
+                      this.state.model.schema.example_data
+                    )}]' {window.location.origin}/api/v1/models/{this.modelName}/predict
+                  </code>
+                </CardText>
+              </Card>
+              <FormGroup />
+              <h2>Predict With WEB UI</h2>
               <Form
-                schema={this.state.model.schema || {}}
-                onChange={log("changed")}
+                schema={this.state.model.schema.schema || {}}
+                uiSchema={this.state.model.schema.ui_schema || {}}
+                formData={this.state.formData || {}}
+                onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
                 onError={log("errors")}
                 ObjectFieldTemplate={ObjectFieldTemplate}

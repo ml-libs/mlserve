@@ -2,5 +2,5 @@ models:
   - name: "boston_gradient_boosting_regressor"
     description: "Boston dataset with gradient boosting regressor"
     model_path: "boston_gbr.pkl"
-    data_schema_path: "boston.json"
+    data_schema_path: "boston_schema.json"
     target: "target"

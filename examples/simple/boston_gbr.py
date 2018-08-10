@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import pandas as pd
 import pickle
@@ -5,6 +6,7 @@ from sklearn import ensemble
 from sklearn import datasets
 from sklearn.utils import shuffle
 from sklearn.metrics import mean_squared_error
+from mlserve import build_schema
 
 boston = datasets.load_boston()
 X, y = shuffle(boston.data, boston.target, random_state=13)
@@ -18,7 +20,7 @@ params = {
     'max_depth': 4,
     'min_samples_split': 2,
     'learning_rate': 0.01,
-    'loss': 'ls'
+    'loss': 'ls',
 }
 clf = ensemble.GradientBoostingRegressor(**params)
 
@@ -28,17 +30,19 @@ y_pred = clf.predict(X_test)
 mse = mean_squared_error(y_test, clf.predict(X_test))
 print('MSE: %.4f' % mse)
 
+
+columns = list(boston.feature_names) + ['target']
+data = np.c_[boston.data, boston.target]
+df = pd.DataFrame(data=data, columns=columns)
+
+
 model_file = 'boston_gbr.pkl'
 print('Writing model')
 with open(model_file, 'wb') as f:
     pickle.dump(clf, f)
 
-print('Writing dataset')
-df = pd.DataFrame(boston.data, columns=boston.feature_names)
-with open('boston.csv', 'w') as f:
-    df.to_csv(f, index=False)
 
-print('Writing predidctions payload example')
-pred_df = df.head(5)
-with open('boston_pred.json', 'w') as f:
-    pred_df.to_json(f)
+print('Writing dataset schema')
+schema = build_schema(df)
+with open('boston_schema.json', 'w') as f:
+    json.dump(schema, f, indent=4, sort_keys=True)

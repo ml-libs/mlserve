@@ -1,0 +1,47 @@
+{
+    "example_data": {
+        "petal length (cm)": 1.4,
+        "petal width (cm)": 0.2,
+        "sepal length (cm)": 5.1,
+        "sepal width (cm)": 3.5,
+        "target": 0.0
+    },
+    "schema": {
+        "properties": {
+            "petal length (cm)": {
+                "type": [
+                    "number"
+                ]
+            },
+            "petal width (cm)": {
+                "type": [
+                    "number"
+                ]
+            },
+            "sepal length (cm)": {
+                "type": [
+                    "number"
+                ]
+            },
+            "sepal width (cm)": {
+                "type": [
+                    "number"
+                ]
+            },
+            "target": {
+                "type": [
+                    "number"
+                ]
+            }
+        },
+        "required": [
+            "sepal length (cm)",
+            "sepal width (cm)",
+            "petal length (cm)",
+            "petal width (cm)",
+            "target"
+        ],
+        "type": "object"
+    },
+    "ui_schema": {}
+}

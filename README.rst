@@ -13,6 +13,30 @@ mlserve
 **mlserve** turns your python models into RESTful API, serves web page with
 form generated to match your input data.
 
+It may be useful if one wants to demonstrate created predictive model and
+quickly integrate into existing application. Additionally UI is provided for
+input data (based on training dataframe) and simple dashboard.
+
+
+Ideas
+-----
+**mlsserve** is small using following design based on following ideas:
+
+- Simplicity and ease of use is primary objective.
+- Application consists of two processes: IO process that runs HTTP server
+  and responsible for fetching and sending data, as well as serve UI, other
+  process (worker) is doing CPU intensive work related to predictions
+  calculations.
+
+
+Features
+========
+* Model predictions serving via RESTful API endpoint.
+* Model predictions serving via generated UI.
+* Web page to simplify models usage.
+* Automatic UI generation to match your input data.
+* Simple dashboard for monitoring purposes.
+
 
 Installation
 ============
@@ -24,38 +48,44 @@ Installation process is simple, just::
 Example
 =======
 
+To deploy model just follow following simple steps:
+
 Save your model into pickle file::
 
     with open('boston_gbr.pkl', 'wb') as f:
         pickle.dump(clf, f)
 
-Save data schema into json file::
+Use `build_schema` function to build UI representation of pandas dataframe,
+and save it as json file file::
+
+    import mlserve
 
     data_schema = mlserve.build_schema(df)
     with open('boston.json', 'wb') as f:
         json.dump(data_schema, f)
 
-Create model config and save into yaml file::
+Create configuration file with following format::
 
     models:
-      - name: "boston_regressor"
-        description: "Boston dataset with gradient boosting regressor"
-        model_path: "boston_gbr.pkl"
-        data_schema_path: "boston.json"
-        target: "target"
+      - name: "boston_regressor"  # url friendly name
+        description: "Boston GBR"  # optional model description
+        model_path: "boston_gbr.pkl"  # path to your saved model
+        data_schema_path: "boston.json"  # path to data representation
+        target: "target"  # name of the target column
 
 Serve model::
 
     $ mlserve -c models.yaml
 
 
-Features
-========
-* Model predictions serving via RESTful API endpoint.
-* Model predictions serving via generated UI.
-* Web page to simplify models usage.
-* Automatic UI generation to match your input data.
-* Simple dashboard for monitoring purposes.
+Thats it, model is available throw REST API, you can test is with curl command::
+
+    $ curl --header "Content-Type: application/json" --request POST
+    --data '[{"feature1": 1, "feature2": 2}]'
+    http://127.0.0.1:9000/api/v1/models/boston_gradient_boosting_regressor/predict
+
+
+UI is available via http://127.0.0.1:9000
 
 
 Supported Frameworks

@@ -16,6 +16,7 @@ ModelMeta = t.Dict(
         t.Key('model_path'): t.String,
         t.Key('data_schema_path'): t.String,
         t.Key('target'): t.String,
+        t.Key('loader', default='pickle'): t.Enum('pickle', 'joblib', 'dill'),
     }
 )
 
@@ -53,6 +54,7 @@ class ModelDescriptor:
     model_size: int
     data_schema_path: Path
     schema_size: int
+    loader: str
 
     def asdict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -87,6 +89,7 @@ def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
             model_size=model_size,
             data_schema_path=Path(m['data_schema_path']),
             schema_size=schema_size,
+            loader=m['loader'],
         )
         result.append(model_desc)
     return result

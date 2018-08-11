@@ -11,8 +11,11 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_squared_error, r2_score
 
 
-dataset_url = ('http://mlr.cs.umass.edu/''ml/machine-learning-databases/'
-               'wine-quality/winequality-red.csv')
+dataset_url = (
+    'http://mlr.cs.umass.edu/'
+    'ml/machine-learning-databases/'
+    'wine-quality/winequality-red.csv'
+)
 data = pd.read_csv(dataset_url, sep=';')
 
 
@@ -23,8 +26,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 pipeline = make_pipeline(
-    StandardScaler(),
-    RandomForestRegressor(n_estimators=100)
+    StandardScaler(), RandomForestRegressor(n_estimators=100)
 )
 
 hyperparameters = {

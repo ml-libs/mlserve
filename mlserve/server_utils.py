@@ -7,8 +7,8 @@ from typing import Any, List, Dict
 from .handlers import (
     APIHandler,
     SiteHandler,
-    setup_app_routes,
     setup_api_routes,
+    setup_app_routes,
 )
 from .consts import PROJ_ROOT
 from .middleware import stats_middleware

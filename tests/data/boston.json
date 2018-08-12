@@ -1,91 +1,110 @@
 {
-    "properties": {
-        "AGE": {
-            "type": [
-                "number"
-            ]
-        },
-        "B": {
-            "type": [
-                "number"
-            ]
-        },
-        "CHAS": {
-            "type": [
-                "number"
-            ]
-        },
-        "CRIM": {
-            "type": [
-                "number"
-            ]
-        },
-        "DIS": {
-            "type": [
-                "number"
-            ]
-        },
-        "INDUS": {
-            "type": [
-                "number"
-            ]
-        },
-        "LSTAT": {
-            "type": [
-                "number"
-            ]
-        },
-        "NOX": {
-            "type": [
-                "number"
-            ]
-        },
-        "PTRATIO": {
-            "type": [
-                "number"
-            ]
-        },
-        "RAD": {
-            "type": [
-                "number"
-            ]
-        },
-        "RM": {
-            "type": [
-                "number"
-            ]
-        },
-        "TAX": {
-            "type": [
-                "number"
-            ]
-        },
-        "ZN": {
-            "type": [
-                "number"
-            ]
-        },
-        "target": {
-            "type": [
-                "number"
-            ]
-        }
+    "example_data": {
+        "AGE": 65.2,
+        "B": 396.9,
+        "CHAS": 0.0,
+        "CRIM": 0.00632,
+        "DIS": 4.09,
+        "INDUS": 2.31,
+        "LSTAT": 4.98,
+        "NOX": 0.538,
+        "PTRATIO": 15.3,
+        "RAD": 1.0,
+        "RM": 6.575,
+        "TAX": 296.0,
+        "ZN": 18.0,
+        "target": 24.0
     },
-    "required": [
-        "CRIM",
-        "ZN",
-        "INDUS",
-        "CHAS",
-        "NOX",
-        "RM",
-        "AGE",
-        "DIS",
-        "RAD",
-        "TAX",
-        "PTRATIO",
-        "B",
-        "LSTAT",
-        "target"
-    ],
-    "type": "object"
+    "schema": {
+        "properties": {
+            "AGE": {
+                "type": [
+                    "number"
+                ]
+            },
+            "B": {
+                "type": [
+                    "number"
+                ]
+            },
+            "CHAS": {
+                "type": [
+                    "number"
+                ]
+            },
+            "CRIM": {
+                "type": [
+                    "number"
+                ]
+            },
+            "DIS": {
+                "type": [
+                    "number"
+                ]
+            },
+            "INDUS": {
+                "type": [
+                    "number"
+                ]
+            },
+            "LSTAT": {
+                "type": [
+                    "number"
+                ]
+            },
+            "NOX": {
+                "type": [
+                    "number"
+                ]
+            },
+            "PTRATIO": {
+                "type": [
+                    "number"
+                ]
+            },
+            "RAD": {
+                "type": [
+                    "number"
+                ]
+            },
+            "RM": {
+                "type": [
+                    "number"
+                ]
+            },
+            "TAX": {
+                "type": [
+                    "number"
+                ]
+            },
+            "ZN": {
+                "type": [
+                    "number"
+                ]
+            },
+            "target": {
+                "type": [
+                    "number"
+                ]
+            }
+        },
+        "required": [
+            "CRIM",
+            "ZN",
+            "INDUS",
+            "CHAS",
+            "NOX",
+            "RM",
+            "AGE",
+            "DIS",
+            "RAD",
+            "TAX",
+            "PTRATIO",
+            "B",
+            "LSTAT",
+            "target"
+        ],
+        "type": "object"
+    },
+    "ui_schema": {}
 }

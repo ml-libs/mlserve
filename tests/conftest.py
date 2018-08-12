@@ -29,6 +29,7 @@ def model_conf():
                 'model_path': 'tests/data/boston_gbr.pkl',
                 'data_schema_path': 'tests/data/boston.json',
                 'target': 'target',
+                'loader': 'pickle',
             }
         ]
     }

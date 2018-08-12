@@ -1,3 +1,6 @@
+import json
+import pandas as pd
+
 from pandas.core.dtypes.common import (
     is_bool_dtype,
     is_categorical_dtype,
@@ -9,6 +12,7 @@ from pandas.core.dtypes.common import (
     is_string_dtype,
     is_timedelta64_dtype,
 )
+from typing import Dict, Any
 
 
 def as_json_table_type(x):
@@ -74,20 +78,27 @@ def make_field(arr):
     #         field['tz'] = arr.dt.tz.zone
     #     else:
     #         field['tz'] = arr.tz.zone
-    return name, field
+    return name, field, dtype
 
 
-def build_schema(data):
+def build_schema(data: pd.DataFrame, include_example: bool=True):
+    form_data = json.loads(data.iloc[[0]].to_json(orient='records'))[0]
     fields = []
     for _, s in data.items():
         fields.append(make_field(s))
 
     names = []
     items = {}
-    for k, v in fields:
+    for k, v, _ in fields:
         items[k] = v
         # if 'null' not in v['type']:
         names.append(k)
 
     schema = {'type': 'object', 'properties': items, 'required': names}
-    return schema
+    ui_scheam: Dict[str, Any] = {}
+    result = {
+        'schema': schema,
+        'ui_schema': ui_scheam,
+        'example_data': form_data if include_example else {},
+    }
+    return result

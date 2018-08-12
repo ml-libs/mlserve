@@ -25,10 +25,17 @@ def credit_dataset():
 
 
 def assert_schema(df):
-    s = build_schema(df)
+    desc = build_schema(df)
+    s = desc['schema']
+    ui_schema = desc['ui_schema']
+    form_data = desc['example_data']
+
     for i in range(len(df)):
         row = json.loads(df.iloc[i].to_json())
         validate(row, s)
+
+    assert set(form_data.keys()) == set(df.columns)
+    assert ui_schema == {}
 
 
 def test_basic(auto_dataset, credit_dataset):

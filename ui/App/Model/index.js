@@ -40,7 +40,8 @@ export default class Model extends Component {
       model: {
         schema: { schema: {}, ui_schema: {}, example_data: {} },
         description: ""
-      }
+      },
+      predictions: []
     };
     this.handleFetch = this.handleFetch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -57,7 +58,7 @@ export default class Model extends Component {
       .then(data => {
         this.setState({
           model: data,
-          formData: data.schema.example_data,
+          formData: data.schema.example_data
         });
       });
   }
@@ -85,7 +86,7 @@ export default class Model extends Component {
   }
 
   handleChange(data) {
-      this.setState({ formData: data.formData });
+    this.setState({ formData: data.formData });
   }
 
   render() {
@@ -120,9 +121,11 @@ export default class Model extends Component {
                 onError={log("errors")}
                 ObjectFieldTemplate={ObjectFieldTemplate}
               />
+              <Card body>
+                <CardText>{JSON.stringify(this.state.predictions)}</CardText>
+              </Card>
             </Col>
           </Row>
-          <p> {JSON.stringify(this.state.predictions)}</p>
         </Container>
       </div>
     );

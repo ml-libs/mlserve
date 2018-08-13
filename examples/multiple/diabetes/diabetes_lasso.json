@@ -1,0 +1,89 @@
+{
+    "example_data": {
+        "age": 0.0380759064,
+        "bmi": 0.0616962065,
+        "bp": 0.021872355,
+        "s1": -0.0442234984,
+        "s2": -0.0348207628,
+        "s3": -0.0434008457,
+        "s4": -0.002592262,
+        "s5": 0.0199084209,
+        "s6": -0.0176461252,
+        "sex": 0.0506801187,
+        "target": 151.0
+    },
+    "schema": {
+        "properties": {
+            "age": {
+                "type": [
+                    "number"
+                ]
+            },
+            "bmi": {
+                "type": [
+                    "number"
+                ]
+            },
+            "bp": {
+                "type": [
+                    "number"
+                ]
+            },
+            "s1": {
+                "type": [
+                    "number"
+                ]
+            },
+            "s2": {
+                "type": [
+                    "number"
+                ]
+            },
+            "s3": {
+                "type": [
+                    "number"
+                ]
+            },
+            "s4": {
+                "type": [
+                    "number"
+                ]
+            },
+            "s5": {
+                "type": [
+                    "number"
+                ]
+            },
+            "s6": {
+                "type": [
+                    "number"
+                ]
+            },
+            "sex": {
+                "type": [
+                    "number"
+                ]
+            },
+            "target": {
+                "type": [
+                    "number"
+                ]
+            }
+        },
+        "required": [
+            "age",
+            "sex",
+            "bmi",
+            "bp",
+            "s1",
+            "s2",
+            "s3",
+            "s4",
+            "s5",
+            "s6",
+            "target"
+        ],
+        "type": "object"
+    },
+    "ui_schema": {}
+}

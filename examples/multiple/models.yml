@@ -1,0 +1,30 @@
+models:
+  - name: "wine_quality"
+    description: "Wine Quality  Model"
+    model_path: "wine_rf/wine_quality_rf.pkl"
+    data_schema_path: "wine_rf/wine_quality_schema.json"
+    target: "quality"
+
+  - name: "boston_gradient_boosting_regressor"
+    description: "Boston dataset with gradient boosting regressor"
+    model_path: "boston_gbr/boston_gbr.pkl"
+    data_schema_path: "boston_gbr/boston_schema.json"
+    target: "target"
+
+  - name: "iris_lr"
+    description: "Iris dataset for logistic regression"
+    model_path: "iris_lr/iris_lr.pkl"
+    data_schema_path: "iris_lr/iris_lr.json"
+    target: "target"
+
+  - name: "students_lasso"
+    description: "Iris dataset for logistic regression"
+    model_path: "students/students_lasso.pkl"
+    data_schema_path: "students/students_lasso.json"
+    target: "G3"
+
+  - name: "diabetes_lasso"
+    description: "Diabetes dataset with lasso"
+    model_path: "diabetes/diabetes_lasso.pkl"
+    data_schema_path: "diabetes/diabetes_lasso.json"
+    target: "target"

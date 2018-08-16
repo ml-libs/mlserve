@@ -15,8 +15,8 @@ ModelMeta = t.Dict(
         t.Key('description'): t.String,
         t.Key('model_path'): t.String,
         t.Key('data_schema_path'): t.String,
-        t.Key('target'): t.String,
-        t.Key('loader', default='pickle'): t.Enum('pickle', 'joblib', 'dill'),
+        t.Key('target'): t.String | t.List(t.String),
+        t.Key('loader', default='pickle'): t.Enum('pickle', 'joblib'),
     }
 )
 

@@ -7,7 +7,7 @@ export default class ModelsList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { models: [] };
+    this.state = { models: [], target: [] };
     this.handleFetch = this.handleFetch.bind(this);
   }
 
@@ -42,7 +42,7 @@ export default class ModelsList extends Component {
               return (
                 <ListGroupItem>
                   <Link to={`/models/${model.name}`}>{model.name}</Link> target{" "}
-                  <Badge color="secondary">{model.target}</Badge>
+                  <Badge color="secondary">{model.target.join(", ")}</Badge>
                 </ListGroupItem>
               );
             })}

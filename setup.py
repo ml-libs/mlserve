@@ -19,6 +19,7 @@ install_requires = [
     'pandas',
     'jsonschema',
     'trafaret',
+    'pyyaml',
 ]
 extras_require = {}
 

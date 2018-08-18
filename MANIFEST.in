@@ -1,5 +1,6 @@
 include LICENSE
 include CHANGES.txt
 include README.rst
+include static/*
 graft mlserve
 global-exclude *.pyc *.swp

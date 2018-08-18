@@ -17,12 +17,26 @@ It may be useful if one wants to demonstrate created predictive model and
 quickly integrate into existing application. Additionally UI is provided for
 input data (based on training dataframe) and simple dashboard.
 
+Project is not complete but already usable, so no any guaranties on API or UI
+backward compatibility.
+
+Online Demo
+===========
+
+Several models deployed online using ``heroku.com/free`` free dynos.
+Free apps sleep automatically after 30 mins of inactivity so first request
+may take some time.
+
+
+* https://young-ridge-56019.herokuapp.com
+
+
 .. image:: https://raw.githubusercontent.com/jettify/mlserve/master/docs/_static/list_models.png
     :alt: mlserve models
 
 .. image:: https://raw.githubusercontent.com/jettify/mlserve/master/docs/_static/one_model.png
     :alt: one model
-    
+
 Ideas
 -----
 **mlsserve** is small using following design based on following ideas:

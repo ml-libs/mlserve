@@ -2,34 +2,19 @@ import "whatwg-fetch";
 import React, { Component } from "react";
 import {
   Badge,
-  Container,
-  Row,
-  Col,
-  Label,
-  FormGroup,
+  Button,
   Card,
-  CardText
+  CardText,
+  CardTitle,
+  Col,
+  Collapse,
+  Container,
+  FormGroup,
+  Label,
+  Row
 } from "reactstrap";
 import Form from "react-jsonschema-form";
 
-function ObjectFieldTemplate({ TitleField, properties, title, description }) {
-  return (
-    <div>
-      <TitleField title={title} />
-      <div className="row">
-        {properties.map(prop => (
-          <div
-            className="col-lg-2 col-md-4 col-sm-6 col-xs-12"
-            key={prop.content.key}
-          >
-            {prop.content}
-          </div>
-        ))}
-      </div>
-      {description}
-    </div>
-  );
-}
 
 const log = type => console.log.bind(console, type);
 export default class Model extends Component {
@@ -39,14 +24,17 @@ export default class Model extends Component {
     this.state = {
       model: {
         schema: { schema: {}, ui_schema: {}, example_data: {} },
-        description: ""
+        description: "",
+        target: [],
       },
-      predictions: []
+      predictions: [],
+      collapse: false,
     };
     this.handleFetch = this.handleFetch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.modelName = props.match.params.modelName;
+    this.toggle = this.toggle.bind(this);
   }
 
   fetchStats() {
@@ -55,10 +43,10 @@ export default class Model extends Component {
     })
       .then(response => response.text())
       .then(jsonData => JSON.parse(jsonData))
-      .then(data => {
+      .then(payload => {
         this.setState({
-          model: data,
-          formData: data.schema.example_data
+          model: payload,
+          formData: payload.schema.example_data
         });
       });
   }
@@ -89,27 +77,39 @@ export default class Model extends Component {
     this.setState({ formData: data.formData });
   }
 
+  toggle() {
+    this.setState({ collapse: !this.state.collapse });
+  }
+
   render() {
     return (
       <div>
         <Container>
           <Row>
             <Col>
-              <h2> Model {this.modelName}</h2>
-              <p> Model {this.state.model.description || ""}</p>
-              <h2>Predict With Command Line</h2>
-              Just copy following <i>curl</i> command and excute in your
-              terminal:
-              <Card body>
-                <CardText>
-                  <code>
-                    curl --header "Content-Type: application/json" --request
-                    POST --data '[{JSON.stringify(
-                      this.state.model.schema.example_data
-                    )}]' {window.location.origin}/api/v1/models/{this.modelName}/predict
-                  </code>
-                </CardText>
-              </Card>
+              <h2>Model {this.modelName}</h2>
+              <p>Model {this.state.model.description || ""}</p>
+              <Button
+                color="primary"
+                onClick={this.toggle}
+              >
+                curl example
+              </Button>
+              <Collapse isOpen={this.state.collapse}>
+                <Card body>
+                  <CardText>
+                    <code>
+                      curl --header "Content-Type: application/json" --request
+                      POST --data '[{JSON.stringify(
+                        this.state.model.schema.example_data
+                      )}]' {window.location.origin}/api/v1/models/{
+                        this.modelName
+                      }/predict
+                    </code>
+                  </CardText>
+                </Card>
+              </Collapse>
+
               <FormGroup />
               <h2>Predict With WEB UI</h2>
               <Form
@@ -119,9 +119,9 @@ export default class Model extends Component {
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
                 onError={log("errors")}
-                ObjectFieldTemplate={ObjectFieldTemplate}
               />
               <Card body>
+                <CardTitle>{this.state.model.target.join(", ")}</CardTitle>
                 <CardText>{JSON.stringify(this.state.predictions)}</CardText>
               </Card>
             </Col>

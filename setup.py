@@ -54,6 +54,7 @@ setup(name='mlserve',
       description=('mlserve -- turns python model into RESTful API'
                    ' with automatically generated UI.'),
       long_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),
+      install_requires=install_requires,
       classifiers=classifiers,
       platforms=['POSIX'],
       author='Nikolay Novik',

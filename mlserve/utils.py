@@ -74,8 +74,8 @@ def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
         with open(m['data_schema_path'], 'rb') as f:
             schema = json.load(f)
 
-        target = m['target']
-        target: List[str] = target if isinstance(target, list) else [target]
+        _target = m['target']
+        target: List[str] = _target if isinstance(_target, list) else [_target]
         schema = drop_columns(schema, target)
 
         schema_size = os.path.getsize(m['data_schema_path'])

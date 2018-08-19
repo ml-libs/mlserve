@@ -8,7 +8,7 @@ class RESTError(web.HTTPError):  # type: ignore
     status_code = 500
     error = 'Unknown Error'
 
-    def __init__(
+    def __init__(  # type: ignore
         self: 'RESTError',
         message: Optional[str] = None,
         status_code=Optional[int],

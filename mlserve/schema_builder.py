@@ -12,10 +12,10 @@ from pandas.core.dtypes.common import (
     is_string_dtype,
     is_timedelta64_dtype,
 )
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 
 
-def as_json_table_type(x):
+def as_json_table_type(x) -> str:
     if is_integer_dtype(x):
         return 'integer'
     elif is_bool_dtype(x):
@@ -44,7 +44,19 @@ def as_json_table_type(x):
         return 'any'
 
 
-def make_field(arr):
+text_area = {
+    'ui:widget': 'textarea',
+    'ui:options': {
+        'rows': 10
+    }
+}
+
+
+radio_button = {'ui:widget': 'radio'}
+
+
+def make_field(arr: pd.Series):
+    ui_schema: Optional[Dict[str, Any]] = None
     add_types = []
     if arr.isnull().sum() > 0:
         arr_no_na = arr.dropna()
@@ -57,8 +69,11 @@ def make_field(arr):
         name = 'values'
     else:
         name = arr.name
-
+    json_type = as_json_table_type(dtype)
     field = {'type': [as_json_table_type(dtype)] + add_types}
+
+    if json_type == 'string' and arr.str.len().mean() > 50:
+        ui_schema = text_area
 
     if is_categorical_dtype(arr):
         if hasattr(arr, 'categories'):
@@ -78,27 +93,31 @@ def make_field(arr):
     #         field['tz'] = arr.dt.tz.zone
     #     else:
     #         field['tz'] = arr.tz.zone
-    return name, field, dtype
+    return name, field, dtype, ui_schema
 
 
-def build_schema(data: pd.DataFrame, include_example: bool=True):
+def build_schema(
+        data: pd.DataFrame, include_example: bool=True
+) -> Dict[str, Any]:
     form_data = json.loads(data.iloc[[0]].to_json(orient='records'))[0]
     fields = []
     for _, s in data.items():
         fields.append(make_field(s))
 
-    names = []
+    names: List[str] = []
     items = {}
-    for k, v, _ in fields:
+    ui_schema: Dict[str, Any] = {}
+    for k, v, _, ui in fields:
         items[k] = v
         # if 'null' not in v['type']:
         names.append(k)
+        if ui is not None:
+            ui_schema[k] = ui
 
     schema = {'type': 'object', 'properties': items, 'required': names}
-    ui_scheam: Dict[str, Any] = {}
     result = {
         'schema': schema,
-        'ui_schema': ui_scheam,
+        'ui_schema': ui_schema,
         'example_data': form_data if include_example else {},
     }
     return result

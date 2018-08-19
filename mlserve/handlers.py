@@ -28,6 +28,7 @@ json_response: JsonResp = partial(web.json_response, dumps=jsonify)
 
 
 class SiteHandler:
+
     def __init__(self, project_root: Path) -> None:
         self._root = project_root
         self._loop = asyncio.get_event_loop()

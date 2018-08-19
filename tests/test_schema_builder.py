@@ -63,3 +63,9 @@ def test_types():
     }
     df = pd.DataFrame.from_dict(data)
     assert_schema(df)
+
+
+def test_text_area():
+    data = {'txt': 'a' * 80}
+    df = pd.DataFrame([data])
+    desc = build_schema(df)

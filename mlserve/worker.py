@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import json
 from typing import Dict, Any, List
@@ -23,5 +24,11 @@ def warm(models: List[ModelDescriptor]) -> bool:
 def predict(model_name: str, raw_data: bytes) -> List[float]:
     # TODO: wrap this call into try except
     df = pd.DataFrame(json.loads(raw_data))
-    results: List[float] = _models[model_name].predict(df).tolist()
+    model = _models[model_name]
+    results: List[float]
+    if hasattr(model, 'predict_proba'):
+        results = model.predict_proba(df)
+        results = np.array(results).T[1].tolist()
+    else:
+        results = model.predict(df).tolist()
     return results

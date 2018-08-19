@@ -2,7 +2,7 @@
 
 FLAGS=
 
-flake: checkrst bandit
+flake: checkrst bandit pyroma
 	flake8 mlserve tests examples setup.py demos
 
 test: flake
@@ -32,7 +32,7 @@ cov cover coverage: flake checkrst
 	py.test -s -v --cov-report term --cov-report html --cov mlserve ./tests
 	@echo "open file://`pwd`/htmlcov/index.html"
 
-cov_only:
+cov_only: flake
 	py.test -s -v --cov-report term --cov-report html --cov mlserve ./tests
 	@echo "open file://`pwd`/htmlcov/index.html"
 

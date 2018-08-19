@@ -26,6 +26,7 @@ def model_conf():
         'models': [
             {
                 'name': 'boston_gbr_1',
+                'description': 'model',
                 'model_path': 'tests/data/boston_gbr.pkl',
                 'data_schema_path': 'tests/data/boston.json',
                 'target': 'target',

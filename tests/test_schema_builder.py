@@ -69,3 +69,4 @@ def test_text_area():
     data = {'txt': 'a' * 80}
     df = pd.DataFrame([data])
     desc = build_schema(df)
+    assert desc

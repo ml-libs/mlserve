@@ -88,7 +88,7 @@ export default class Model extends Component {
           <Row>
             <Col>
               <h2>Model {this.modelName}</h2>
-              <p>Model {this.state.model.description || ""}</p>
+              <p>Model {this.state.model.description}</p>
               <Button
                 color="primary"
                 onClick={this.toggle}

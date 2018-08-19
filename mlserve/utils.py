@@ -47,6 +47,7 @@ class ServerConfig:
 @dataclass(frozen=True)
 class ModelDescriptor:
     name: str
+    description: str
     target: List[str]
     features: List[str]
     schema: Dict[Any, Any]
@@ -82,6 +83,7 @@ def load_models(model_conf: List[Dict[str, str]]) -> List[ModelDescriptor]:
         features = list(schema['schema']['properties'].keys())
         model_desc = ModelDescriptor(
             name=m['name'],
+            description=m['description'],
             target=target,
             features=features,
             schema=schema,

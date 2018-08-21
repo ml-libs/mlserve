@@ -30,6 +30,7 @@ may take some time.
 
 * https://young-ridge-56019.herokuapp.com
 
+Full source code and instructions available here: https://github.com/jettify/mlserve-demo
 
 .. image:: https://raw.githubusercontent.com/jettify/mlserve/master/docs/_static/list_models.png
     :alt: mlserve models

@@ -1,18 +1,17 @@
 from pathlib import Path
 
-from mlserve.utils import load_models
+from mlserve.utils import load_models, ModelMeta
 
 
 def test_load_models():
     m = [
-        {
+        ModelMeta({
             'name': 'boston_gbr_1',
             'description': 'model predicts',
             'model_path': 'tests/data/boston_gbr.pkl',
             'data_schema_path': 'tests/data/boston.json',
             'target': 'target',
-            'loader': 'pickle'
-        }
+        })
     ]
     r = load_models(m)
     f = [

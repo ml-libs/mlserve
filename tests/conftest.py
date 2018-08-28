@@ -4,6 +4,7 @@ import gc
 import pytest
 
 from mlserve.server_utils import init
+from mlserve.utils import ModelConfig
 
 
 @pytest.fixture(scope='session')
@@ -22,7 +23,7 @@ def loop(event_loop):
 
 @pytest.fixture(scope='session')
 def model_conf():
-    m = {
+    m = ModelConfig({
         'models': [
             {
                 'name': 'boston_gbr_1',
@@ -33,7 +34,7 @@ def model_conf():
                 'loader': 'pickle',
             }
         ]
-    }
+    })
     return m
 
 

@@ -25,6 +25,7 @@
     "react-dom": "^16.0.0",
     "react-jsonschema-form": "^1.0.4",
     "react-router-dom": "^4.3.1",
+    "react-vis": "^1.10.4",
     "reactstrap": "^6.3.1",
     "whatwg-fetch": "^2.0.4",
     "yarn": "^1.9.0"

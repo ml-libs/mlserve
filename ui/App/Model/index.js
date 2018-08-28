@@ -15,6 +15,17 @@ import {
 } from "reactstrap";
 import Form from "react-jsonschema-form";
 
+import "../../../node_modules/react-vis/dist/style.css";
+import {
+  XYPlot,
+  XAxis,
+  YAxis,
+  VerticalGridLines,
+  HorizontalGridLines,
+  LineMarkSeries,
+DiscreteColorLegend,
+  FlexibleWidthXYPlot
+} from "react-vis";
 
 const log = type => console.log.bind(console, type);
 export default class Model extends Component {
@@ -25,10 +36,12 @@ export default class Model extends Component {
       model: {
         schema: { schema: {}, ui_schema: {}, example_data: {} },
         description: "",
-        target: [],
+        target: []
       },
       predictions: [],
+      plot: [{x: 0, y: 0}],
       collapse: false,
+      counter: 0
     };
     this.handleFetch = this.handleFetch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,9 +79,12 @@ export default class Model extends Component {
     })
       .then(response => response.text())
       .then(jsonData => JSON.parse(jsonData))
-      .then(data => {
+      .then(payload => {
+        var point = { x: this.state.plot.length + 1, y: payload[0]}
+          console.log(this.state)
         this.setState({
-          predictions: data[0]
+          predictions: payload[0],
+          plot: [...this.state.plot, point]
         });
       });
   }
@@ -89,10 +105,26 @@ export default class Model extends Component {
             <Col>
               <h2>Model {this.modelName}</h2>
               <p>Model {this.state.model.description}</p>
-              <Button
-                color="primary"
-                onClick={this.toggle}
-              >
+
+
+              <div>
+                <FlexibleWidthXYPlot height={300}>
+                  <VerticalGridLines />
+                  <HorizontalGridLines />
+                  <XAxis />
+                  <YAxis />
+                  <LineMarkSeries
+                    className="linemark-series-example"
+                    style={{
+                      strokeWidth: "3px"
+                    }}
+                    lineStyle={{ stroke: "red" }}
+                    markStyle={{ stroke: "blue" }}
+                    data={this.state.plot}
+                  />
+                </FlexibleWidthXYPlot>
+              </div>
+              <Button color="primary" onClick={this.toggle}>
                 curl example
               </Button>
               <Collapse isOpen={this.state.collapse}>

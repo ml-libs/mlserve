@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from mlserve.utils import load_models, ModelMeta
+from mlserve.worker import warm
 
 
 def test_load_models():
@@ -37,3 +38,20 @@ def test_load_models():
     assert model_desc.features == f
     assert model_desc.model_path == Path('tests/data/boston_gbr.pkl')
     assert model_desc.data_schema_path == Path('tests/data/boston.json')
+
+
+def test_warm():
+    m = [
+        ModelMeta({
+            'name': 'boston_gbr_1',
+            'description': 'model predicts',
+            'model_path': 'tests/data/boston_gbr.pkl',
+            'data_schema_path': 'tests/data/boston.json',
+            'target': 'target',
+        })
+    ]
+    r = load_models(m)
+    assert len(r) == 1
+    cache = {}
+    warm(r, cache)
+    assert len(cache) == 1

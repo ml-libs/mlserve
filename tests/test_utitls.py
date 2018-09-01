@@ -1,7 +1,9 @@
+import json
 from pathlib import Path
 
+import pytest
 from mlserve.utils import load_models, ModelMeta
-from mlserve.worker import warm
+from mlserve.worker import warm, predict
 
 
 def test_load_models():
@@ -40,7 +42,8 @@ def test_load_models():
     assert model_desc.data_schema_path == Path('tests/data/boston.json')
 
 
-def test_warm():
+@pytest.fixture
+def model_desc():
     m = [
         ModelMeta({
             'name': 'boston_gbr_1',
@@ -52,6 +55,15 @@ def test_warm():
     ]
     r = load_models(m)
     assert len(r) == 1
+    return r[0]
+
+
+def test_warm_predict(model_desc):
     cache = {}
-    warm(r, cache)
+    warm([model_desc], cache)
     assert len(cache) == 1
+    raw = json.dumps([model_desc.schema['example_data']])
+    target = ['target']
+
+    result = predict(model_desc.name, target, raw, cache)
+    assert result

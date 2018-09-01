@@ -95,10 +95,11 @@ class APIHandler:
     async def model_predict(self, request: web.Request) -> web.Response:
         model_name = request.match_info['model_name']
         self.validate_model_name(model_name)
+        target = self._models[model_name].target
         raw_data = await request.read()
         run = self._loop.run_in_executor
         # TODO: figure out if we need protect call with aiojobs
-        r = await run(self._executor, predict, model_name, raw_data)
+        r = await run(self._executor, predict, model_name, target, raw_data)
         # TODO: introduce exception in case of model failure to predict
         # msg = 'Model failed to predict'
         # raise UnprocessableEntity(msg, reason=str(e)) from e

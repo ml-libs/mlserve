@@ -25,9 +25,23 @@ def warm(models: List[ModelDescriptor], cache: Optional[Cache]=None) -> bool:
     return True
 
 
+def format_result(pred, target):
+    if len(target) == 1:
+        results_list = [pred]
+    else:
+        results_list = pred
+
+    formated = []
+    for r in results_list:
+        paris = [(t, r) for t, r in zip(target, r)]
+        formated.append(dict(paris))
+    return formated
+
+
 def predict(
-        model_name: str, raw_data: bytes, cache: Optional[Cache]=None
-) -> List[float]:
+        model_name: str, target: List[str], raw_data: bytes,
+        cache: Optional[Cache]=None
+) -> List[Dict[str, float]]:
     cache = cache if cache is not None else _models
     # TODO: wrap this call into try except
     df = pd.DataFrame(json.loads(raw_data))
@@ -37,5 +51,6 @@ def predict(
         results = model.predict_proba(df)
         results = np.array(results).T[1].tolist()
     else:
-        results = model.predict(df).tolist()
-    return results
+        results = model.predict(df)
+
+    return format_result(results, target)

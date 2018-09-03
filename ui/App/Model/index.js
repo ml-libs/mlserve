@@ -23,11 +23,21 @@ import {
   VerticalGridLines,
   HorizontalGridLines,
   LineMarkSeries,
-DiscreteColorLegend,
+  DiscreteColorLegend,
   FlexibleWidthXYPlot
 } from "react-vis";
 
-const log = type => console.log.bind(console, type);
+const reformatPlot = function(target, rawPlot) {
+  return target.map(function(t) {
+    return [
+      t,
+      rawPlot.map(function(pl, idx) {
+        return { y: pl[t], x: idx };
+      })
+    ];
+  });
+};
+
 export default class Model extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +49,7 @@ export default class Model extends Component {
         target: []
       },
       predictions: [],
-      plot: [{x: 0, y: 0}],
+      plot: [],
       collapse: false,
       counter: 0
     };
@@ -80,8 +90,7 @@ export default class Model extends Component {
       .then(response => response.text())
       .then(jsonData => JSON.parse(jsonData))
       .then(payload => {
-        var point = { x: this.state.plot.length + 1, y: payload[0]}
-          console.log(this.state)
+        var point = payload[0];
         this.setState({
           predictions: payload[0],
           plot: [...this.state.plot, point]
@@ -105,23 +114,28 @@ export default class Model extends Component {
             <Col>
               <h2>Model {this.modelName}</h2>
               <p>Model {this.state.model.description}</p>
-
-
+              <div className="legend">
+                <DiscreteColorLegend items={this.state.model.target} />
+              </div>
               <div>
                 <FlexibleWidthXYPlot height={300}>
                   <VerticalGridLines />
                   <HorizontalGridLines />
                   <XAxis />
                   <YAxis />
-                  <LineMarkSeries
-                    className="linemark-series-example"
-                    style={{
-                      strokeWidth: "3px"
-                    }}
-                    lineStyle={{ stroke: "red" }}
-                    markStyle={{ stroke: "blue" }}
-                    data={this.state.plot}
-                  />
+
+                  {reformatPlot(this.state.model.target, this.state.plot).map(
+                    item => {
+                      var [t, series] = item;
+                      return (
+                        <LineMarkSeries
+                          className="linemark-series-example"
+                          style={{ strokeWidth: "1px" }}
+                          data={series}
+                        />
+                      );
+                    }
+                  )}
                 </FlexibleWidthXYPlot>
               </div>
               <Button color="primary" onClick={this.toggle}>

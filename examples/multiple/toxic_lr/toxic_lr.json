@@ -1,0 +1,55 @@
+{
+    "example_data": {
+        "comment_text": "Explanation\nWhy the edits made under my username Hardcore Metallica Fan were reverted? They weren't vandalisms, just closure on some GAs after I voted at New York Dolls FAC. And please don't remove the template from the talk page since I'm retired now.89.205.38.27",
+        "identity_hate": 0,
+        "insult": 0,
+        "obscene": 0,
+        "severe_toxic": 0,
+        "toxic": 0
+    },
+    "schema": {
+        "properties": {
+            "comment_text": {
+                "type": [
+                    "string"
+                ]
+            },
+            "identity_hate": {
+                "type": [
+                    "integer"
+                ]
+            },
+            "insult": {
+                "type": [
+                    "integer"
+                ]
+            },
+            "obscene": {
+                "type": [
+                    "integer"
+                ]
+            },
+            "severe_toxic": {
+                "type": [
+                    "integer"
+                ]
+            }
+        },
+        "required": [
+            "comment_text",
+            "severe_toxic",
+            "obscene",
+            "insult",
+            "identity_hate"
+        ],
+        "type": "object"
+    },
+    "ui_schema": {
+        "comment_text": {
+            "ui:widget": "textarea",
+            "ui:options": {
+                "rows": 10
+            }
+        }
+    }
+}

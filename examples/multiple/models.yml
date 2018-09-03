@@ -28,3 +28,9 @@ models:
     model_path: "diabetes/diabetes_lasso.pkl"
     data_schema_path: "diabetes/diabetes_lasso.json"
     target: "target"
+
+  - name: "toxic_lr"
+    description: "Toxic comments classification with TF/IDF and LogisticRegression"
+    model_path: "toxic_lr/toxic_lr.pkl"
+    data_schema_path: "toxic_lr/toxic_lr.json"
+    target: ["identity_hate", "insult", "obscene", "severe_toxic", "threat"]

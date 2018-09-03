@@ -3,8 +3,9 @@ from typing import Dict, Any, List, Optional
 
 import numpy as np
 import pandas as pd
-from .utils import ModelDescriptor
+
 from .loaders import get_loader
+from .utils import ModelDescriptor
 
 
 # TODO: add structural typing with predict method instead
@@ -25,7 +26,8 @@ def warm(models: List[ModelDescriptor], cache: Optional[Cache]=None) -> bool:
     return True
 
 
-def format_result(pred, target):
+def format_result(
+        pred: np.ndarray, target: List[str]) -> List[Dict[str, float]]:
     if len(target) == 1:
         results_list = [pred]
     else:

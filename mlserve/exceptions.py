@@ -1,6 +1,7 @@
 import json
-from aiohttp import web
 from typing import Optional, Dict, Any
+
+from aiohttp import web
 
 
 # Server related exceptions

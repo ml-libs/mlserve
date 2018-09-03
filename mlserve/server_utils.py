@@ -1,8 +1,8 @@
 import asyncio
-
-from aiohttp import web
 from concurrent.futures import ProcessPoolExecutor
 from typing import Any, List, Dict
+
+from aiohttp import web
 
 from .handlers import (
     APIHandler,

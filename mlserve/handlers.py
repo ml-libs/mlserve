@@ -1,17 +1,18 @@
 import asyncio
 import json
 
-from aiohttp import web
+from concurrent.futures import ProcessPoolExecutor
 from functools import partial
 from pathlib import Path
 from typing import Callable, Dict, Any, Union, List
-from concurrent.futures import ProcessPoolExecutor
+
+from aiohttp import web
 
 from .consts import MODELS_KEY
 from .exceptions import ObjectNotFound
 from .stats import ModelStats, AggStats
-from .worker import predict
 from .utils import ModelDescriptor
+from .worker import predict
 
 
 def path_serializer(obj: Any) -> str:

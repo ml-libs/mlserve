@@ -56,6 +56,7 @@ export default class Model extends Component {
     this.handleFetch = this.handleFetch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleError = this.handleError.bind(this);
     this.modelName = props.match.params.modelName;
     this.toggle = this.toggle.bind(this);
   }
@@ -102,6 +103,10 @@ export default class Model extends Component {
     this.setState({ formData: data.formData });
   }
 
+  handleError(err) {
+      console.log(err);
+  }
+
   toggle() {
     this.setState({ collapse: !this.state.collapse });
   }
@@ -114,9 +119,6 @@ export default class Model extends Component {
             <Col>
               <h2>Model {this.modelName}</h2>
               <p>Model {this.state.model.description}</p>
-              <div className="legend">
-                <DiscreteColorLegend items={this.state.model.target} />
-              </div>
               <div>
                 <FlexibleWidthXYPlot height={300}>
                   <VerticalGridLines />
@@ -137,6 +139,9 @@ export default class Model extends Component {
                     }
                   )}
                 </FlexibleWidthXYPlot>
+              </div>
+              <div className="legend">
+                <DiscreteColorLegend items={this.state.model.target} />
               </div>
               <Button color="primary" onClick={this.toggle}>
                 curl example
@@ -164,7 +169,7 @@ export default class Model extends Component {
                 formData={this.state.formData || {}}
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
-                onError={log("errors")}
+                onError={this.handleError}
               />
               <Card body>
                 <CardTitle>{this.state.model.target.join(", ")}</CardTitle>

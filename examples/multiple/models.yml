@@ -34,3 +34,9 @@ models:
     model_path: "toxic_lr/toxic_lr.pkl"
     data_schema_path: "toxic_lr/toxic_lr.json"
     target: ["identity_hate", "insult", "obscene", "severe_toxic", "threat"]
+
+  - name: "instagram_rf"
+    description: "Classification fake user on instagram"
+    model_path: "instagram/instgram_rf.pkl"
+    data_schema_path: "instagram/instagram.json"
+    target: ["rating"]

@@ -1,0 +1,61 @@
+{
+    "example_data": {
+        "Number.of.followers": 177,
+        "Number.of.people.they.follow": 198,
+        "Number.of.posts": 0,
+        "Private.account": true,
+        "has_profile_picture": true,
+        "rating": false
+    },
+    "schema": {
+        "properties": {
+            "Number.of.followers": {
+                "type": [
+                    "integer"
+                ]
+            },
+            "Number.of.people.they.follow": {
+                "type": [
+                    "integer"
+                ]
+            },
+            "Number.of.posts": {
+                "type": [
+                    "integer"
+                ]
+            },
+            "Private.account": {
+                "type": [
+                    "boolean"
+                ]
+            },
+            "has_profile_picture": {
+                "type": [
+                    "boolean"
+                ]
+            },
+            "rating": {
+                "type": [
+                    "boolean"
+                ]
+            }
+        },
+        "required": [
+            "Number.of.posts",
+            "Number.of.people.they.follow",
+            "Number.of.followers",
+            "has_profile_picture",
+            "Private.account",
+            "rating"
+        ],
+        "type": "object"
+    },
+    "ui_schema": {
+        "Number.of.followers": {},
+        "Number.of.people.they.follow": {},
+        "Number.of.posts": {},
+        "Private.account": {"ui:widget": "radio"},
+        "has_profile_picture": {"ui:widget": "radio"},
+        "rating": {}
+    }
+}

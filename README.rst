@@ -1,11 +1,11 @@
 mlserve
 =======
-.. image:: https://travis-ci.com/jettify/mlserve.svg?branch=master
-    :target: https://travis-ci.com/jettify/mlserve
-.. image:: https://codecov.io/gh/jettify/mlserve/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/jettify/mlserve
+.. image:: https://travis-ci.com/ml-libs/mlserve.svg?branch=master
+    :target: https://travis-ci.com/ml-libs/mlserve
+.. image:: https://codecov.io/gh/ml-libs/mlserve/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/ml-libs/mlserve
 .. image:: https://api.codeclimate.com/v1/badges/1ff813d5cad2d702cbf1/maintainability
-   :target: https://codeclimate.com/github/jettify/mlserve/maintainability
+   :target: https://codeclimate.com/github/ml-libs/mlserve/maintainability
    :alt: Maintainability
 .. image:: https://img.shields.io/pypi/v/mlserve.svg
     :target: https://pypi.python.org/pypi/mlserve
@@ -30,12 +30,12 @@ may take some time.
 
 * https://young-ridge-56019.herokuapp.com
 
-Full source code and instructions available here: https://github.com/jettify/mlserve-demo
+Full source code and instructions available here: https://github.com/ml-libs/mlserve-demo
 
-.. image:: https://raw.githubusercontent.com/jettify/mlserve/master/docs/_static/list_models.png
+.. image:: https://raw.githubusercontent.com/ml-libs/mlserve/master/docs/_static/list_models.png
     :alt: mlserve models
 
-.. image:: https://raw.githubusercontent.com/jettify/mlserve/master/docs/_static/one_model.png
+.. image:: https://raw.githubusercontent.com/ml-libs/mlserve/master/docs/_static/one_model.png
     :alt: one model
 
 Ideas
@@ -63,7 +63,7 @@ Installation
 
 Installation process is simple, just::
 
-    $ pip install git+https://github.com/jettify/mlserve.git
+    $ pip install git+https://github.com/ml-libs/mlserve.git
 
 Example
 =======

@@ -61,7 +61,7 @@ export default class MainNav extends React.Component {
                 <NavLink href="https://mlserve.rtfd.com">Docs</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/jettify/mlserve">
+                <NavLink href="https://github.com/ml-libs/mlserve">
                   GitHub
                 </NavLink>
               </NavItem>

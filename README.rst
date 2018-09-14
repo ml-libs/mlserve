@@ -71,12 +71,14 @@ Example
 To deploy model just follow following simple steps:
 
 Save your model into pickle file::
+.. code:: python
 
     with open('boston_gbr.pkl', 'wb') as f:
         pickle.dump(clf, f)
 
 Use `build_schema` function to build UI representation of pandas dataframe,
 and save it as json file file::
+.. code:: python
 
     import mlserve
 

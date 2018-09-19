@@ -4,14 +4,9 @@ import { ListGroupItem, ListGroup, Badge, Container } from "reactstrap";
 import { Link } from "react-router-dom";
 
 export default class ModelsList extends Component {
-  constructor(props) {
-    super(props);
+  state = { models: [], target: [] };
 
-    this.state = { models: [], target: [] };
-    this.handleFetch = this.handleFetch.bind(this);
-  }
-
-  fetchStats() {
+  fetchStats = () => {
     fetch("/api/v1/models", {
       method: "GET"
     })
@@ -22,12 +17,13 @@ export default class ModelsList extends Component {
           models: data
         });
       });
-  }
+  };
 
-  handleFetch(event) {
+  handleFetch = (event) => {
     event.preventDefault();
     this.fetchStats();
-  }
+  };
+
   componentDidMount() {
     this.fetchStats();
   }

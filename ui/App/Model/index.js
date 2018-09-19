@@ -39,29 +39,20 @@ const reformatPlot = function(target, rawPlot) {
 };
 
 export default class Model extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    model: {
+      schema: { schema: {}, ui_schema: {}, example_data: {} },
+      description: "",
+      target: []
+    },
+    predictions: [],
+    plot: [],
+    collapse: false,
+    counter: 0
+  };
+  modelName = this.props.match.params.modelName;
 
-    this.state = {
-      model: {
-        schema: { schema: {}, ui_schema: {}, example_data: {} },
-        description: "",
-        target: []
-      },
-      predictions: [],
-      plot: [],
-      collapse: false,
-      counter: 0
-    };
-    this.handleFetch = this.handleFetch.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleError = this.handleError.bind(this);
-    this.modelName = props.match.params.modelName;
-    this.toggle = this.toggle.bind(this);
-  }
-
-  fetchStats() {
+  fetchStats = () => {
     fetch(`/api/v1/models/${this.modelName}`, {
       method: "GET"
     })
@@ -73,12 +64,13 @@ export default class Model extends Component {
           formData: payload.schema.example_data
         });
       });
-  }
+  };
 
-  handleFetch(event) {
+  handleFetch = (event) => {
     event.preventDefault();
     this.fetchStats();
-  }
+  };
+
   componentDidMount() {
     this.fetchStats();
   }
@@ -91,7 +83,7 @@ export default class Model extends Component {
       .then(response => response.text())
       .then(jsonData => JSON.parse(jsonData))
       .then(payload => {
-        var point = payload[0];
+        const point = payload[0];
         this.setState({
           predictions: payload[0],
           plot: [...this.state.plot, point]
@@ -99,17 +91,17 @@ export default class Model extends Component {
       });
   }
 
-  handleChange(data) {
+  handleChange = (data) => {
     this.setState({ formData: data.formData });
-  }
+  };
 
-  handleError(err) {
-      console.log(err);
-  }
+  handleError = (err) => {
+    console.log(err);
+  };
 
-  toggle() {
+  toggle = () => {
     this.setState({ collapse: !this.state.collapse });
-  }
+  };
 
   render() {
     return (
@@ -128,7 +120,7 @@ export default class Model extends Component {
 
                   {reformatPlot(this.state.model.target, this.state.plot).map(
                     item => {
-                      var [t, series] = item;
+                      const [_, series] = item;
                       return (
                         <LineMarkSeries
                           className="linemark-series-example"

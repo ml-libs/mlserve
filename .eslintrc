@@ -1,6 +1,7 @@
 {
   "root": true,
   "env": {
+    "es6": true,
     "browser": true
   },
   "extends": [
@@ -13,13 +14,22 @@
     "prettier"
   ],
   "rules": {
-    "no-unused-vars": [0, { "varsIgnorePattern": "^h$" }],
+    "no-unused-vars": [
+      0,
+      {
+        "varsIgnorePattern": "^h$"
+      }
+    ],
     "prettier/prettier": "error"
   },
+  "parser": "babel-eslint",
   "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
     "ecmaFeatures": {
-        "jsx": true,
-        "modules": true
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
     }
   }
 }

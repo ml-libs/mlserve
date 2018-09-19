@@ -16,37 +16,32 @@ import {
 import { Link } from "react-router-dom";
 
 export default class MainNav extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    isOpen: false,
+    models: []
+  };
 
-    this.handleFetch = this.fetchModesl.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false,
-      models: []
-    };
-  }
-  toggle() {
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
+  };
 
-  fetchModesl() {
+  fetchModels = () => {
     fetch("/api/v1/models", {
       method: "GET"
     })
-      .then(response => response.text())
-      .then(jsonData => JSON.parse(jsonData))
+      .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           models: data
         });
       });
-  }
+  };
 
   componentDidMount() {
-    this.fetchModesl();
+    this.fetchModels();
   }
 
   render() {

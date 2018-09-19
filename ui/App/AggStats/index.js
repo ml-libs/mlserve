@@ -57,7 +57,7 @@ export default class AggStats extends Component {
         <Row>
           <Col>
             <Card body className="text-center">
-              <CardTitle>Succeses</CardTitle>
+              <CardTitle>Successes</CardTitle>
               <CardText>
                 <h1>{this.state.success}</h1>
               </CardText>

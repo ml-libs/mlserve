@@ -35,24 +35,45 @@ export default class AggStats extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ marginBottom: 8 }}>
         <Button color="link" onClick={this.handleFetch}>
           Refresh
         </Button>
         <Row>
-          <Col>
+          <Col
+            sm="12"
+            md="4"
+            lg="4"
+            xl="4"
+            size="auto"
+            style={{ marginBottom: 8 }}
+          >
             <Card body className="text-center">
               <CardTitle>Successes</CardTitle>
               <h1>{this.state.success}</h1>
             </Card>
           </Col>
-          <Col>
+          <Col
+            sm="12"
+            md="4"
+            lg="4"
+            xl="4"
+            size="auto"
+            style={{ marginBottom: 8 }}
+          >
             <Card body className="text-center">
               <CardTitle>Mean Response Time</CardTitle>
               <h1>{this.state.mean_resp_time}</h1>
             </Card>
           </Col>
-          <Col>
+          <Col
+            sm="12"
+            md="4"
+            lg="4"
+            xl="4"
+            size="auto"
+            style={{ marginBottom: 8 }}
+          >
             <Card body className="text-center">
               <CardTitle>Errors</CardTitle>
               <h1>{this.state.error}</h1>

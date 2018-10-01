@@ -1,4 +1,5 @@
 import asyncio
+from functools import partial
 from concurrent.futures import ProcessPoolExecutor
 from typing import Any, List, Dict
 
@@ -13,7 +14,7 @@ from .handlers import (
 from .consts import PROJ_ROOT
 from .middleware import stats_middleware
 from .utils import ModelDescriptor, load_models
-from .worker import warm
+from .worker import warm, clean_worker
 
 
 async def setup_executor(
@@ -24,11 +25,15 @@ async def setup_executor(
     executor = ProcessPoolExecutor(max_workers=max_workers)
     loop = asyncio.get_event_loop()
     run = loop.run_in_executor
-    fs = [run(executor, warm, models) for i in range(0, max_workers)]
+
+    w = partial(warm, cache=None, init_signals=True)
+    fs = [run(executor, w, models) for i in range(0, max_workers)]
     await asyncio.gather(*fs)
 
     async def close_executor(app: web.Application) -> None:
         # TODO: figureout timeout for shutdown
+        fs = [run(executor, clean_worker) for i in range(0, max_workers)]
+        await asyncio.gather(*fs)
         executor.shutdown(wait=True)
 
     app.on_cleanup.append(close_executor)

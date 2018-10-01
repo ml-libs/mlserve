@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 PY_VER = sys.version_info
 
-if not PY_VER >= (3, 5):
+if not PY_VER >= (3, 6):
     raise RuntimeError('mlserve does not support Python earlier than 3.6')
 
 
@@ -20,6 +20,7 @@ install_requires = [
     'jsonschema',
     'trafaret',
     'pyyaml',
+    'dataclasses; python_version<"3.7"'
 ]
 extras_require = {}
 

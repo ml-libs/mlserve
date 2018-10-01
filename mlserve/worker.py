@@ -1,4 +1,5 @@
 import json
+import signal
 from typing import Dict, Any, List, Optional
 
 import numpy as np
@@ -14,8 +15,21 @@ Cache = Dict[str, Any]
 _models: Cache = {}
 
 
-def warm(models: List[ModelDescriptor], cache: Optional[Cache]=None) -> bool:
+def clean_worker():
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    global _model
+    _models = None  # noqa
+
+
+def warm(models: List[ModelDescriptor],
+         cache: Optional[Cache]=None,
+         init_signals: bool=False,
+         ) -> bool:
     global _models
+
+    if init_signals:
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+
     cache = cache if cache is not None else _models
 
     for model in models:

@@ -13,7 +13,7 @@ flake8-quotes==1.0.0
 flake8-tuple==0.2.13
 ipdb==0.11
 jsonschema==3.0.1
-mypy==0.641
+mypy==0.670
 pandas==0.23.4
 pyroma==2.4
 pytest-aiohttp==0.3.0

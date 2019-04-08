@@ -12,7 +12,7 @@ flake8-pyi==19.3.0
 flake8-quotes==1.0.0
 flake8-tuple==0.2.14
 ipdb==0.12
-jsonschema==2.6.0
+jsonschema==3.0.1
 mypy==0.641
 pandas==0.23.4
 pyroma==2.4

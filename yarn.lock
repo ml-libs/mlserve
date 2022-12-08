@@ -598,7 +598,7 @@ babel-plugin-syntax-async-functions@^6.8.0:
 
 babel-plugin-syntax-class-properties@^6.8.0:
   version "6.13.0"
-  resolved "http://registry.npmjs.org/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz#d7eb23b79a317f8543962c505b827c7d6cac27de"
+  resolved "https://registry.npmjs.org/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz#d7eb23b79a317f8543962c505b827c7d6cac27de"
 
 babel-plugin-syntax-exponentiation-operator@^6.8.0:
   version "6.13.0"
@@ -606,7 +606,7 @@ babel-plugin-syntax-exponentiation-operator@^6.8.0:
 
 babel-plugin-syntax-flow@^6.18.0:
   version "6.18.0"
-  resolved "http://registry.npmjs.org/babel-plugin-syntax-flow/-/babel-plugin-syntax-flow-6.18.0.tgz#4c3ab20a2af26aa20cd25995c398c4eb70310c8d"
+  resolved "https://registry.npmjs.org/babel-plugin-syntax-flow/-/babel-plugin-syntax-flow-6.18.0.tgz#4c3ab20a2af26aa20cd25995c398c4eb70310c8d"
 
 babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
   version "6.18.0"
@@ -2554,7 +2554,7 @@ etag@~1.8.1:
 
 event-stream@~3.3.0:
   version "3.3.4"
-  resolved "http://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
+  resolved "https://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
   dependencies:
     duplexer "~0.1.1"
     from "~0"
@@ -6069,8 +6069,8 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
 
 qs@~6.3.0:
-  version "6.3.2"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.2.tgz#e75bd5f6e268122a2a0e0bda630b2550c166502c"
+  version "6.3.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.3.tgz#645c23bd6def4d552f258f0aadfeea6fd57f5a86"
 
 qs@~6.5.2:
   version "6.5.2"
